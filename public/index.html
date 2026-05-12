@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpeakRacer â€” Talk Fast. Win.</title>
+<title>SpeakRacer — Talk Fast. Win.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@ body::after{
 
 .screen{display:none}.screen.active{display:block}
 
-/* â•â• SHARED NAV â•â• */
+/* ══ SHARED NAV ══ */
 .top-bar{
   display:flex;align-items:center;justify-content:space-between;
   padding:1.1rem 2rem;border-bottom:1px solid var(--border);
@@ -36,7 +36,7 @@ body::after{
 .mono{font-family:'Space Mono',monospace}
 .pill{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.28rem .7rem;border-radius:999px;border:1px solid var(--border);color:var(--dim)}
 
-/* â•â• LANDING â•â• */
+/* ══ LANDING ══ */
 #screen-land{min-height:100vh;position:relative;overflow:hidden}
 .bg-stamp{position:absolute;font-family:'Archivo Black',sans-serif;font-weight:900;line-height:1;color:transparent;user-select:none;pointer-events:none;-webkit-text-stroke:1px rgba(200,255,0,.055)}
 .bgs1{font-size:clamp(120px,18vw,260px);top:-2%;left:-2%;animation:bgD1 14s ease-in-out infinite alternate}
@@ -80,7 +80,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .land-cta h2{font-family:'Archivo Black',sans-serif;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:2.5rem}
 .land-cta h2 em{font-style:normal;color:var(--acid)}
 
-/* â•â• SHARED PANEL SYSTEM â•â• */
+/* ══ SHARED PANEL SYSTEM ══ */
 .wrap{max-width:820px;margin:0 auto;padding:2rem 1.5rem}
 .pg-title{font-family:'Archivo Black',sans-serif;font-size:1.75rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.3rem}
 .pg-sub{font-size:.8rem;color:var(--dim);margin-bottom:1.75rem}
@@ -104,7 +104,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .abtn-hot:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .abtn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
 
-/* â•â• ROOM CODE DISPLAY â•â• */
+/* ══ ROOM CODE DISPLAY ══ */
 .room-code-box{
   background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.25);
   border-radius:var(--r12);padding:1.5rem;text-align:center;margin-bottom:.8rem;
@@ -114,7 +114,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .room-code-hint{font-size:.75rem;color:rgba(245,240,232,.45);line-height:1.6}
 .copy-link-btn{margin-top:.75rem}
 
-/* â•â• PLAYER SLOTS â•â• */
+/* ══ PLAYER SLOTS ══ */
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .slot{border:1px solid var(--border);border-radius:var(--r12);padding:.85rem;text-align:center;transition:all .3s}
 .slot.ready{border-color:rgba(200,255,0,.3);background:rgba(200,255,0,.015)}
@@ -127,7 +127,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .waiting-pulse{animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* â•â• GAME â•â• */
+/* ══ GAME ══ */
 .game-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,.92);backdrop-filter:blur(10px);z-index:50}
 .game-clock{font-family:'Space Mono',monospace;font-size:1.5rem;color:var(--acid);letter-spacing:.1em}
 
@@ -158,13 +158,13 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 
 .game-ctrl{display:flex;justify-content:center;gap:.65rem;margin-top:.5rem}
 
-/* â•â• COUNTDOWN â•â• */
+/* ══ COUNTDOWN ══ */
 #cd-overlay{position:fixed;inset:0;background:rgba(8,8,8,.93);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:999}
 .cd-n{font-family:'Archivo Black',sans-serif;font-size:clamp(130px,22vw,250px);line-height:1;color:var(--acid);text-shadow:0 0 90px rgba(200,255,0,.3);animation:cdPop .55s cubic-bezier(.34,1.56,.64,1)}
 .cd-h{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,240,232,.3);margin-top:1rem}
 @keyframes cdPop{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
 
-/* â•â• RESULTS â•â• */
+/* ══ RESULTS ══ */
 .res-wrap{max-width:660px;margin:0 auto;padding:3rem 1.5rem}
 .res-center{text-align:center;margin-bottom:2.5rem}
 .res-ico{font-size:3.5rem;display:block;margin-bottom:1rem;animation:bounce .6s cubic-bezier(.34,1.56,.64,1)}
@@ -178,11 +178,11 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .res-lbl{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-family:'Space Mono',monospace}
 .res-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
 
-/* â•â• TOAST â•â• */
+/* ══ TOAST ══ */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#141414;border:1px solid rgba(245,240,232,.1);border-radius:var(--r8);padding:.6rem .9rem;font-size:.73rem;z-index:10000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:280px;font-family:'Space Mono',monospace}
 .toast.show{opacity:1}
 
-/* â•â• JOIN MODAL â•â• */
+/* ══ JOIN MODAL ══ */
 #join-modal{position:fixed;inset:0;background:rgba(8,8,8,.9);display:none;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(6px)}
 .modal-box{background:#111;border:1px solid var(--border);border-radius:var(--r12);padding:2rem;max-width:380px;width:90%}
 .modal-title{font-family:'Archivo Black',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.25rem}
@@ -202,7 +202,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 </head>
 <body>
 
-<!-- â•â•â•â•â•â•â•â•â•â• LANDING â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════ LANDING ══════════ -->
 <div class="screen active" id="screen-land">
   <span class="bg-stamp bgs1">FAST</span>
   <span class="bg-stamp bgs2">TALK</span>
@@ -220,7 +220,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
     <div class="hero-lower">
       <p class="hero-sub">Real-time speech recognition turns your voice into a race. Challenge a friend with a link. First to say every word wins.</p>
       <div class="hero-btns">
-        <button class="btn-acid" onclick="showLobby()">â–¶ &nbsp;Play Now</button>
+        <button class="btn-acid" onclick="showLobby()">▶ &nbsp;Play Now</button>
         <button class="btn-ghost" onclick="showJoinModal()">Join Room</button>
       </div>
     </div>
@@ -229,38 +229,38 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
   <div class="stat-rib">
     <div class="stat-cell"><div class="stat-n">2</div><div class="stat-l">Players</div></div>
     <div class="stat-cell"><div class="stat-n">Live</div><div class="stat-l">Real-Time</div></div>
-    <div class="stat-cell"><div class="stat-n">âˆž</div><div class="stat-l">Passages</div></div>
+    <div class="stat-cell"><div class="stat-n">∞</div><div class="stat-l">Passages</div></div>
     <div class="stat-cell"><div class="stat-n">AI</div><div class="stat-l">Powered</div></div>
   </div>
   <div class="feat-row">
     <div class="feat">
-      <span class="feat-ic">ðŸ”—</span>
+      <span class="feat-ic">🔗</span>
       <div class="feat-t">Instant Rooms</div>
       <div class="feat-d">Create a room, share the 6-character code or link. Your friend joins in one click. No account needed.</div>
     </div>
     <div class="feat">
-      <span class="feat-ic">âš¡</span>
+      <span class="feat-ic">⚡</span>
       <div class="feat-t">Live Recognition</div>
       <div class="feat-d">Every word you say lights up instantly. Both players see each other's progress in real time.</div>
     </div>
     <div class="feat">
-      <span class="feat-ic">ðŸ“·</span>
+      <span class="feat-ic">📷</span>
       <div class="feat-t">Face-to-Face</div>
       <div class="feat-d">Camera feeds show both racers live. Watch your friend's face as you leave them in the dust.</div>
     </div>
   </div>
   <div class="land-cta">
     <h2>Your voice.<br><em>Their loss.</em></h2>
-    <button class="btn-acid" style="font-size:1rem;padding:.9rem 2.8rem" onclick="showLobby()">â–¶ &nbsp;Create Room</button>
+    <button class="btn-acid" style="font-size:1rem;padding:.9rem 2.8rem" onclick="showLobby()">▶ &nbsp;Create Room</button>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â• LOBBY â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════ LOBBY ══════════ -->
 <div class="screen" id="screen-lobby">
   <nav class="top-bar">
-    <button class="btn-ghost" style="padding:.4rem .9rem;font-size:.7rem" onclick="setScreen('land')">â† Back</button>
+    <button class="btn-ghost" style="padding:.4rem .9rem;font-size:.7rem" onclick="setScreen('land')">← Back</button>
     <div class="logo">SpeakRacer</div>
-    <span class="bdg mono" id="badge-sr" style="font-size:.6rem">Checkingâ€¦</span>
+    <span class="bdg mono" id="badge-sr" style="font-size:.6rem">Checking…</span>
   </nav>
   <div class="wrap">
     <div class="pg-title">Race Lobby</div>
@@ -269,14 +269,27 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
     <!-- setup -->
     <div class="panel">
       <div class="ptag">Your Setup</div>
-      <input class="inp" id="p1name" placeholder="Your nameâ€¦" maxlength="20" value="Player 1">
+      <input class="inp" id="p1name" placeholder="Your name…" maxlength="20" value="Player 1">
       <div class="bdg-row">
-        <span class="bdg" id="badge-cam">ðŸ“· Camera: off</span>
-        <span class="bdg" id="badge-mic">ðŸŽ¤ Mic: off</span>
+        <span class="bdg" id="badge-cam">📷 Camera: off</span>
+        <span class="bdg" id="badge-mic">🎤 Mic: off</span>
       </div>
       <div class="btn-row">
         <button class="abtn abtn-acid" id="btn-enable">Enable Camera &amp; Mic</button>
         <button class="abtn abtn-g" id="btn-mic-only">Mic Only</button>
+      </div>
+
+      <!-- MIC METER -->
+      <div id="mic-meter-wrap" style="display:none;margin-top:1rem">
+        <div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);margin-bottom:.5rem">🎤 Mic Level</div>
+        <div style="background:rgba(245,240,232,.05);border-radius:999px;height:12px;overflow:hidden;margin-bottom:.4rem">
+          <div id="mic-level-bar" style="height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#c8ff00,#7fff00);transition:width .05s"></div>
+        </div>
+        <div id="mic-level-label" style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--dim)">Waiting for sound…</div>
+        <div id="speech-test-wrap" style="margin-top:.85rem;display:none">
+          <div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);margin-bottom:.4rem">🗣 Speech Recognition Test</div>
+          <div id="speech-test-output" style="font-size:.82rem;color:var(--dim);min-height:1.4rem;font-style:italic">Say something to test…</div>
+        </div>
       </div>
     </div>
 
@@ -284,8 +297,8 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
     <div class="panel" id="panel-room-actions">
       <div class="ptag">Room</div>
       <div class="btn-row">
-        <button class="abtn abtn-acid" id="btn-create-room">ðŸ  Create Room</button>
-        <button class="abtn abtn-g" id="btn-join-room">ðŸ”— Join Room</button>
+        <button class="abtn abtn-acid" id="btn-create-room">🏠 Create Room</button>
+        <button class="abtn abtn-g" id="btn-join-room">🔗 Join Room</button>
       </div>
     </div>
 
@@ -293,9 +306,9 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
     <div id="panel-room-code" style="display:none">
       <div class="room-code-box">
         <div class="room-code-label">Your Room Code</div>
-        <div class="room-code" id="room-code-display">â€”â€”â€”</div>
+        <div class="room-code" id="room-code-display">———</div>
         <div class="room-code-hint">Share this code with your friend so they can join.<br>Or copy the link below.</div>
-        <button class="abtn abtn-g copy-link-btn" id="btn-copy-link">ðŸ“‹ Copy Invite Link</button>
+        <button class="abtn abtn-g copy-link-btn" id="btn-copy-link">📋 Copy Invite Link</button>
       </div>
     </div>
 
@@ -305,15 +318,15 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       <div class="slots">
         <div class="slot ready" id="slot-me">
           <div class="slot-cam">
-            <span id="lobby-no-cam">ðŸ™‚</span>
+            <span id="lobby-no-cam">🙂</span>
             <video id="lobby-video" autoplay muted playsinline style="display:none"></video>
           </div>
           <div class="slot-nm" id="lobby-me-name">You</div>
           <div class="slot-st ok">Ready</div>
         </div>
         <div class="slot waiting" id="slot-opp">
-          <div class="slot-cam"><span class="waiting-pulse">â³</span></div>
-          <div class="slot-nm">Waitingâ€¦</div>
+          <div class="slot-cam"><span class="waiting-pulse">⏳</span></div>
+          <div class="slot-nm">Waiting…</div>
           <div class="slot-st">Share your room code</div>
         </div>
       </div>
@@ -325,18 +338,18 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       <div style="display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
         <div style="font-size:.82rem;color:var(--dim);line-height:1.65;flex:1;min-width:180px" id="passage-preview"></div>
         <div style="display:flex;gap:.5rem;flex-shrink:0">
-          <button class="abtn abtn-g" id="btn-new-passage">ðŸ”€ New</button>
-          <button class="abtn abtn-acid" id="btn-start-race" disabled>ðŸ Start</button>
+          <button class="abtn abtn-g" id="btn-new-passage">🔀 New</button>
+          <button class="abtn abtn-acid" id="btn-start-race" disabled>🏁 Start</button>
         </div>
       </div>
       <div style="font-size:.7rem;color:var(--dim);margin-top:.75rem" id="host-hint"></div>
     </div>
 
-    <p style="font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:.25rem">âš ï¸ <strong style="color:rgba(245,240,232,.5)">Chrome or Edge only.</strong> Safari doesn't support Web Speech API.</p>
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:.25rem">⚠️ <strong style="color:rgba(245,240,232,.5)">Chrome or Edge only.</strong> Safari doesn't support Web Speech API.</p>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â• GAME â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════ GAME ══════════ -->
 <div class="screen" id="screen-game">
   <nav class="game-nav">
     <div class="logo" style="font-size:.9rem">SpeakRacer</div>
@@ -349,7 +362,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       <div class="rcard" id="rcard-me">
         <div class="rcard-row">
           <div class="rcard-vid">
-            <span id="game-no-cam">ðŸ™‚</span>
+            <span id="game-no-cam">🙂</span>
             <video id="game-video" autoplay muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
           </div>
           <div class="rcard-info">
@@ -359,13 +372,13 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
           <div class="rcard-ct" id="me-count">0</div>
         </div>
         <div class="pbar-t"><div class="pbar-f" id="bar-me" style="width:0%"></div></div>
-        <div class="hint-txt" id="hint-me">â€¦</div>
+        <div class="hint-txt" id="hint-me">…</div>
       </div>
       <!-- Opponent -->
       <div class="rcard" id="rcard-opp">
         <div class="rcard-row">
           <div class="rcard-vid" id="opp-vid-wrap">
-            <span id="opp-emoji">ðŸ‘¤</span>
+            <span id="opp-emoji">👤</span>
           </div>
           <div class="rcard-info">
             <div class="rcard-name" style="color:var(--blue)" id="opp-name-game">Opponent</div>
@@ -374,34 +387,34 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
           <div class="rcard-ct opp" id="opp-count">0</div>
         </div>
         <div class="pbar-t"><div class="pbar-f opp" id="bar-opp" style="width:0%"></div></div>
-        <div class="hint-txt" id="hint-opp">Waitingâ€¦</div>
+        <div class="hint-txt" id="hint-opp">Waiting…</div>
       </div>
     </div>
     <div class="race-box" id="race-text"></div>
     <div class="game-ctrl">
-      <button class="abtn abtn-g" id="btn-give-up">ðŸ³ Give Up</button>
+      <button class="abtn abtn-g" id="btn-give-up">🏳 Give Up</button>
     </div>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â• RESULTS â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════ RESULTS ══════════ -->
 <div class="screen" id="screen-results">
   <nav class="top-bar"><div class="logo">SpeakRacer</div></nav>
   <div class="res-wrap">
     <div class="res-center">
-      <span class="res-ico" id="res-ico">ðŸ†</span>
+      <span class="res-ico" id="res-ico">🏆</span>
       <div class="res-title" id="res-title">YOU WIN</div>
       <div class="res-note" id="res-note"></div>
     </div>
     <div class="res-stats">
-      <div class="res-box"><div class="res-v" id="res-wpm">â€”</div><div class="res-lbl">Your WPM</div></div>
-      <div class="res-box"><div class="res-v" id="res-time">â€”</div><div class="res-lbl">Time</div></div>
-      <div class="res-box"><div class="res-v b" id="res-oppwpm">â€”</div><div class="res-lbl">Opp WPM</div></div>
-      <div class="res-box"><div class="res-v" id="res-acc">â€”</div><div class="res-lbl">Accuracy</div></div>
+      <div class="res-box"><div class="res-v" id="res-wpm">—</div><div class="res-lbl">Your WPM</div></div>
+      <div class="res-box"><div class="res-v" id="res-time">—</div><div class="res-lbl">Time</div></div>
+      <div class="res-box"><div class="res-v b" id="res-oppwpm">—</div><div class="res-lbl">Opp WPM</div></div>
+      <div class="res-box"><div class="res-v" id="res-acc">—</div><div class="res-lbl">Accuracy</div></div>
     </div>
     <div class="res-btns">
-      <button class="abtn abtn-acid" id="btn-rematch">ðŸ” Rematch</button>
-      <button class="abtn abtn-g" id="btn-back-lobby">â† Lobby</button>
+      <button class="abtn abtn-acid" id="btn-rematch">🔁 Rematch</button>
+      <button class="abtn abtn-g" id="btn-back-lobby">← Lobby</button>
     </div>
   </div>
 </div>
@@ -427,10 +440,10 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 <div class="toast" id="toast"></div>
 
 <script>
-/* â”€â”€ SOCKET â”€â”€ */
+/* ── SOCKET ── */
 const socket = io();
 
-/* â”€â”€ STATE â”€â”€ */
+/* ── STATE ── */
 const st = {
   myId: null,
   roomId: null,
@@ -456,7 +469,7 @@ const st = {
   bestWpm: 0,
 };
 
-/* â”€â”€ UTILS â”€â”€ */
+/* ── UTILS ── */
 const g = id => document.getElementById(id);
 
 function toast(msg, dur=4000){
@@ -485,7 +498,7 @@ function isMatch(said,target){
   return false;
 }
 
-/* â”€â”€ SCREEN FLOW â”€â”€ */
+/* ── SCREEN FLOW ── */
 function showLobby(){
   setScreen('lobby');
   checkSpeechAPI();
@@ -508,12 +521,12 @@ function autoJoin(code){
   },400);
 }
 
-/* â”€â”€ MEDIA â”€â”€ */
+/* ── MEDIA ── */
 function checkSpeechAPI(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   const b=g('badge-sr');
-  if(SR){b.textContent='ðŸ—£ Speech API: OK';b.className='bdg ok';}
-  else{b.textContent='ðŸ—£ Not supported â€” use Chrome/Edge';b.className='bdg err';}
+  if(SR){b.textContent='🗣 Speech API: OK';b.className='bdg ok';}
+  else{b.textContent='🗣 Not supported — use Chrome/Edge';b.className='bdg err';}
 }
 async function enableMedia(withVideo){
   // First try camera+mic together, fall back to mic-only if camera fails
@@ -530,11 +543,11 @@ async function enableMedia(withVideo){
         stream = await tryGetMedia({audio:true, video:{facingMode:'user'}});
         gotVideo = stream.getVideoTracks().length > 0;
       }catch(videoErr){
-        // camera failed â€” try mic only
+        // camera failed — try mic only
         console.warn('Camera failed, trying mic only:', videoErr);
         stream = await tryGetMedia({audio:true, video:false});
         gotVideo = false;
-        toast('âš ï¸ Camera blocked, mic-only mode enabled.',4000);
+        toast('⚠️ Camera blocked, mic-only mode enabled.',4000);
       }
     } else {
       stream = await tryGetMedia({audio:true, video:false});
@@ -546,37 +559,123 @@ async function enableMedia(withVideo){
     if(gotVideo){
       const lv=g('lobby-video');lv.srcObject=stream;lv.style.display='block';
       g('lobby-no-cam').style.display='none';
-      g('badge-cam').textContent='ðŸ“· Camera: active';g('badge-cam').className='bdg ok';
+      g('badge-cam').textContent='📷 Camera: active';g('badge-cam').className='bdg ok';
     }else{
-      g('badge-cam').textContent='ðŸ“· Camera: off';g('badge-cam').className='bdg warn';
+      g('badge-cam').textContent='📷 Camera: off';g('badge-cam').className='bdg warn';
     }
 
     // Confirm mic track is actually present and live
     const audioTracks = stream.getAudioTracks();
     if(audioTracks.length > 0 && audioTracks[0].readyState === 'live'){
-      g('badge-mic').textContent='ðŸŽ¤ Mic: active';g('badge-mic').className='bdg ok';
-      toast(gotVideo?'âœ… Camera & mic enabled!':'âœ… Mic enabled â€” you're ready to race!');
+      g('badge-mic').textContent='🎤 Mic: active';g('badge-mic').className='bdg ok';
+      toast(gotVideo?'✅ Camera & mic enabled!':'✅ Mic enabled — you\'re ready to race!');
+      startMicMeter(stream);
+      startSpeechTest();
     } else {
-      g('badge-mic').textContent='ðŸŽ¤ Mic: no signal';g('badge-mic').className='bdg err';
-      toast('âš ï¸ Mic permission granted but no audio signal detected. Check your mic.',5000);
+      g('badge-mic').textContent='🎤 Mic: no signal';g('badge-mic').className='bdg err';
+      toast('⚠️ Mic permission granted but no audio signal detected. Check your mic.',5000);
     }
 
   }catch(err){
     console.error('getUserMedia error:', err.name, err.message);
     if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
-      toast('âŒ Mic access denied. Click the ðŸ”’ lock icon in your browser address bar â†’ set Microphone to Allow â†’ refresh the page.',9000);
-      g('badge-mic').textContent='ðŸŽ¤ Mic: permission denied';g('badge-mic').className='bdg err';
+      toast('❌ Mic access denied. Click the 🔒 lock icon in your browser address bar → set Microphone to Allow → refresh the page.',9000);
+      g('badge-mic').textContent='🎤 Mic: permission denied';g('badge-mic').className='bdg err';
     } else if(err.name==='NotFoundError'){
-      toast('âŒ No microphone found. Plug in a mic or headset and try again.',6000);
-      g('badge-mic').textContent='ðŸŽ¤ Mic: not found';g('badge-mic').className='bdg err';
+      toast('❌ No microphone found. Plug in a mic or headset and try again.',6000);
+      g('badge-mic').textContent='🎤 Mic: not found';g('badge-mic').className='bdg err';
     } else {
-      toast('âŒ Mic error: '+err.name+' â€” '+err.message,6000);
-      g('badge-mic').textContent='ðŸŽ¤ Mic: error';g('badge-mic').className='bdg err';
+      toast('❌ Mic error: '+err.name+' — '+err.message,6000);
+      g('badge-mic').textContent='🎤 Mic: error';g('badge-mic').className='bdg err';
     }
   }
 }
 
-/* â”€â”€ ROOM â”€â”€ */
+/* ── MIC METER ── */
+let micMeterAnim = null;
+let testRec = null;
+
+function startMicMeter(stream) {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const src = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    src.connect(analyser);
+    const buf = new Uint8Array(analyser.frequencyBinCount);
+    let silent = 0;
+
+    g('mic-meter-wrap').style.display = 'block';
+
+    function tick() {
+      micMeterAnim = requestAnimationFrame(tick);
+      analyser.getByteFrequencyData(buf);
+      const avg = buf.reduce((a,b)=>a+b,0) / buf.length;
+      const pct = Math.min(100, Math.round(avg * 3.5));
+      g('mic-level-bar').style.width = pct + '%';
+
+      if (pct > 5) {
+        silent = 0;
+        g('mic-level-bar').style.background = pct > 40
+          ? 'linear-gradient(90deg,#c8ff00,#00ff88)'
+          : 'linear-gradient(90deg,#c8ff00,#7fff00)';
+        g('mic-level-label').textContent = pct > 60 ? '🔊 Strong signal — great!' : pct > 20 ? '✅ Mic is working!' : '🔉 Low signal — speak up or get closer';
+        g('mic-level-label').style.color = 'var(--acid)';
+      } else {
+        silent++;
+        if (silent > 60) {
+          g('mic-level-label').textContent = 'No sound detected — try speaking or check mic settings';
+          g('mic-level-label').style.color = 'var(--dim)';
+        }
+      }
+    }
+    tick();
+  } catch(e) {
+    console.warn('Mic meter error:', e);
+  }
+}
+
+function startSpeechTest() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    g('speech-test-wrap').style.display = 'block';
+    g('speech-test-output').textContent = '❌ Speech API not supported — use Chrome or Edge!';
+    g('speech-test-output').style.color = 'var(--hot)';
+    return;
+  }
+  g('speech-test-wrap').style.display = 'block';
+  g('speech-test-output').textContent = 'Say something…';
+
+  testRec = new SR();
+  testRec.continuous = true;
+  testRec.interimResults = true;
+  testRec.lang = 'en-US';
+
+  testRec.onresult = (e) => {
+    let txt = '';
+    for (let i = 0; i < e.results.length; i++) txt += e.results[i][0].transcript;
+    g('speech-test-output').textContent = '✅ Heard: "' + txt.trim() + '"';
+    g('speech-test-output').style.color = 'var(--acid)';
+  };
+  testRec.onerror = (e) => {
+    if (e.error === 'no-speech') return;
+    g('speech-test-output').textContent = '❌ Error: ' + e.error + (e.error === 'not-allowed' ? ' — mic blocked in browser' : '');
+    g('speech-test-output').style.color = 'var(--hot)';
+  };
+  testRec.onend = () => {
+    if (st.stream && !st.raceActive) try { testRec.start(); } catch(e) {}
+  };
+  try { testRec.start(); } catch(e) {}
+}
+
+function stopMicMeter() {
+  if (micMeterAnim) cancelAnimationFrame(micMeterAnim);
+  if (testRec) { try { testRec.stop(); } catch(e) {} testRec = null; }
+}
+
+/* ── ROOM ── */
 function createRoom(){
   const name=g('p1name').value||'Player 1';
   if(!st.stream){toast('Enable your mic first!',4000);return;}
@@ -592,12 +691,12 @@ function joinRoomFromModal(){
 
 function copyInviteLink(){
   const url=`${window.location.origin}?room=${st.roomId}`;
-  navigator.clipboard.writeText(url).then(()=>toast('âœ… Link copied! Send it to your friend.')).catch(()=>{
+  navigator.clipboard.writeText(url).then(()=>toast('✅ Link copied! Send it to your friend.')).catch(()=>{
     prompt('Copy this link:',url);
   });
 }
 
-/* â”€â”€ SOCKET EVENTS â”€â”€ */
+/* ── SOCKET EVENTS ── */
 socket.on('connect',()=>{ st.myId=socket.id; });
 
 socket.on('room_joined',({roomId,passage,isHost,players})=>{
@@ -615,7 +714,7 @@ socket.on('room_joined',({roomId,passage,isHost,players})=>{
     g('btn-start-race').disabled=true;
     g('btn-new-passage').style.display='inline-flex';
   }else{
-    g('host-hint').textContent='Waiting for host to start the raceâ€¦';
+    g('host-hint').textContent='Waiting for host to start the race…';
     g('btn-start-race').style.display='none';
     g('btn-new-passage').style.display='none';
   }
@@ -629,11 +728,11 @@ socket.on('room_update',({players})=>{ updateLobbyPlayers(players); });
 socket.on('passage_changed',({passage})=>{
   st.passage=passage;
   g('passage-preview').textContent=passage;
-  toast('ðŸ“– New passage!');
+  toast('📖 New passage!');
 });
 
 socket.on('opponent_left',({players})=>{
-  toast('âš ï¸ Opponent left the room.',5000);
+  toast('⚠️ Opponent left the room.',5000);
   updateLobbyPlayers(players);
   g('btn-start-race').disabled=true;
   if(st.raceActive) endRaceAborted();
@@ -657,7 +756,7 @@ socket.on('opponent_update',({id,progress,wpm})=>{
   st.oppIndex=progress;
   st.oppWpm=wpm;
   updateOppBars();
-  g('hint-opp').textContent=wpm+' WPM Â· word '+progress;
+  g('hint-opp').textContent=wpm+' WPM · word '+progress;
 });
 
 socket.on('player_finished',({id,name,wpm,accuracy,elapsed,players})=>{
@@ -671,7 +770,7 @@ socket.on('player_finished',({id,name,wpm,accuracy,elapsed,players})=>{
 });
 
 socket.on('race_over',({players})=>{
-  // Both done â€” handled by individual finish events
+  // Both done — handled by individual finish events
 });
 
 socket.on('rematch_ready',({passage,players})=>{
@@ -687,10 +786,10 @@ socket.on('rematch_ready',({passage,players})=>{
     g('btn-start-race').disabled=false;
     g('host-hint').textContent='Ready for rematch. Hit Start!';
   }
-  toast('ðŸ” Rematch ready!');
+  toast('🔁 Rematch ready!');
 });
 
-socket.on('error_msg',(msg)=>{ toast('âŒ '+msg,5000); });
+socket.on('error_msg',(msg)=>{ toast('❌ '+msg,5000); });
 
 function updateLobbyPlayers(players){
   const me=players.find(p=>p.id===st.myId);
@@ -701,22 +800,22 @@ function updateLobbyPlayers(players){
     st.oppName=opp.name;
     slot.className='slot ready';
     slot.innerHTML=`
-      <div class="slot-cam">ðŸ‘¤</div>
+      <div class="slot-cam">👤</div>
       <div class="slot-nm">${opp.name}</div>
-      <div class="slot-st ok">âœ… Joined Â· Ready</div>`;
+      <div class="slot-st ok">✅ Joined · Ready</div>`;
     if(st.isHost) g('btn-start-race').disabled=false;
     g('opp-name-game').textContent=opp.name;
   } else {
     slot.className='slot waiting';
     slot.innerHTML=`
-      <div class="slot-cam"><span class="waiting-pulse">â³</span></div>
-      <div class="slot-nm">Waitingâ€¦</div>
+      <div class="slot-cam"><span class="waiting-pulse">⏳</span></div>
+      <div class="slot-nm">Waiting…</div>
       <div class="slot-st">Share your room code</div>`;
     if(st.isHost) g('btn-start-race').disabled=true;
   }
 }
 
-/* â”€â”€ GAME SETUP â”€â”€ */
+/* ── GAME SETUP ── */
 function buildText(){
   st.words=st.passage.split(/\s+/).filter(Boolean);
   g('race-text').innerHTML=st.words.map((w,i)=>`<span class="w pend" id="w${i}">${w}</span>`).join(' ');
@@ -731,6 +830,7 @@ function startRaceLocal(){
     const v=g('game-video');v.srcObject=st.stream;v.style.display='block';
     g('game-no-cam').style.display='none';
   }
+  stopMicMeter();
   Object.assign(st,{myIndex:0,oppIndex:0,myDone:false,
     myStart:null,myCorrect:0,myTotal:0,myFinishTime:null});
   buildText();wc(0,'curr');
@@ -738,8 +838,8 @@ function startRaceLocal(){
   ['me-count','opp-count'].forEach(id=>g(id).textContent='0');
   ['me-wpm','opp-wpm'].forEach(id=>g(id).textContent='0 WPM');
   g('race-timer').textContent='0:00';
-  g('hint-me').textContent='ðŸŽ¤ Go! Speak fast!';
-  g('hint-opp').textContent='Racingâ€¦';
+  g('hint-me').textContent='🎤 Go! Speak fast!';
+  g('hint-opp').textContent='Racing…';
   g('mdot').classList.remove('on');
   startClock();
   startRecognition();
@@ -765,7 +865,7 @@ function updateMyBars(){
   }
 }
 
-/* â”€â”€ COUNTDOWN â”€â”€ */
+/* ── COUNTDOWN ── */
 function showCountdown(onDone){
   let count=3;
   const ov=g('cd-overlay'),cn=g('cd-num');
@@ -784,7 +884,7 @@ function showCountdown(onDone){
   },1000);
 }
 
-/* â”€â”€ CLOCK â”€â”€ */
+/* ── CLOCK ── */
 function startClock(){
   clearInterval(st.clockTimer);
   st.clockTimer=setInterval(()=>{
@@ -794,7 +894,7 @@ function startClock(){
   },200);
 }
 
-/* â”€â”€ SPEECH ENGINE â”€â”€ */
+/* ── SPEECH ENGINE ── */
 function startRecognition(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){toast('Needs Chrome or Edge!',6000);return;}
@@ -802,7 +902,7 @@ function startRecognition(){
   st.rec=rec;
   rec.continuous=true;rec.interimResults=true;rec.lang='en-US';rec.maxAlternatives=1;
   let cursor=0;
-  rec.onstart=()=>{ cursor=0; g('hint-me').textContent='ðŸŽ¤ Go! Speak fast!'; };
+  rec.onstart=()=>{ cursor=0; g('hint-me').textContent='🎤 Go! Speak fast!'; };
   rec.onresult=(event)=>{
     if(!st.raceActive||st.myDone)return;
     if(!st.myStart)st.myStart=Date.now();
@@ -811,8 +911,8 @@ function startRecognition(){
     const all=full.trim().toLowerCase().split(/\s+/).filter(Boolean);
     if(all.length>cursor){ const c=matchWords(all.slice(cursor)); cursor+=c; }
     const last=event.results[event.results.length-1];
-    if(!last.isFinal) g('hint-me').textContent='ðŸ’¬ '+last[0].transcript.trim();
-    else if(st.myIndex<st.words.length) g('hint-me').textContent='â†’ '+st.words[st.myIndex];
+    if(!last.isFinal) g('hint-me').textContent='💬 '+last[0].transcript.trim();
+    else if(st.myIndex<st.words.length) g('hint-me').textContent='→ '+st.words[st.myIndex];
     g('mdot').classList.add('on');g('rcard-me').classList.add('live');
   };
   rec.onspeechend=()=>{ g('mdot').classList.remove('on');g('rcard-me').classList.remove('live'); };
@@ -820,10 +920,10 @@ function startRecognition(){
     console.warn('SR error:',e.error);
     if(e.error==='no-speech'||e.error==='aborted')return;
     if(e.error==='not-allowed'){
-      toast('âŒ Mic permission denied. Click the lock icon in your browser address bar, allow Microphone, then refresh.',8000);
-      g('hint-me').textContent='âŒ Mic blocked â€” check browser permissions';
+      toast('❌ Mic permission denied. Click the lock icon in your browser address bar, allow Microphone, then refresh.',8000);
+      g('hint-me').textContent='❌ Mic blocked — check browser permissions';
     } else if(e.error==='audio-capture'){
-      toast('âŒ No microphone found or mic is in use by another app.',6000);
+      toast('❌ No microphone found or mic is in use by another app.',6000);
     } else {
       toast('Mic error: '+e.error,5000);
     }
@@ -890,15 +990,15 @@ function showResults({winner,myWpm,myTime,myAcc,oppWpm,oppTime}){
   const elapsed=myTime||((Date.now()-st.raceStart)/1000).toFixed(1);
   const wpm=myWpm||Math.round(st.myIndex/Math.max((Date.now()-(st.myStart||st.raceStart))/60000,.001));
   const acc=myAcc!==undefined?myAcc:(st.myTotal>0?Math.round(st.myCorrect/st.myTotal*100):0);
-  const ow=oppWpm||st.oppWpm||'â€”';
+  const ow=oppWpm||st.oppWpm||'—';
 
   if(winner==='me'){
-    g('res-ico').textContent='ðŸ†';
+    g('res-ico').textContent='🏆';
     g('res-title').textContent=name+' WINS';
     g('res-title').style.color='var(--acid)';
     g('res-note').textContent='You outran '+st.oppName+'! '+wpm+' WPM.';
   }else{
-    g('res-ico').textContent='ðŸ’¨';
+    g('res-ico').textContent='💨';
     g('res-title').textContent=st.oppName.toUpperCase()+' WINS';
     g('res-title').style.color='var(--blue)';
     g('res-note').textContent=st.oppName+' finished first. Race again!';
@@ -909,7 +1009,7 @@ function showResults({winner,myWpm,myTime,myAcc,oppWpm,oppTime}){
   g('res-acc').textContent=acc+'%';
 }
 
-/* â”€â”€ EVENTS â”€â”€ */
+/* ── EVENTS ── */
 g('btn-enable').addEventListener('click',()=>enableMedia(true));
 g('btn-mic-only').addEventListener('click',()=>enableMedia(false));
 g('btn-create-room').addEventListener('click',createRoom);
@@ -928,7 +1028,7 @@ g('btn-rematch').addEventListener('click',()=>{ socket.emit('request_rematch'); 
 g('btn-back-lobby').addEventListener('click',()=>{ setScreen('lobby'); });
 g('p1name').addEventListener('input',e=>{ g('lobby-me-name').textContent=e.target.value||'Player 1'; g('game-me-name').textContent=e.target.value||'Player 1'; });
 
-/* â”€â”€ INIT â”€â”€ */
+/* ── INIT ── */
 checkSpeechAPI();
 const urlRoom=new URLSearchParams(window.location.search).get('room');
 if(urlRoom){ showLobby(); }
