@@ -573,7 +573,6 @@ function startMicMeter(stream) {
     src.connect(analyser);
     const buf = new Uint8Array(analyser.frequencyBinCount);
     let silentFrames = 0;
-
     function tick() {
       S.meterRaf = requestAnimationFrame(tick);
       analyser.getByteFrequencyData(buf);
@@ -582,17 +581,12 @@ function startMicMeter(stream) {
       el('meter-fill').style.width = pct + '%';
       if (pct > 4) {
         silentFrames = 0;
-        el('meter-fill').style.background = pct > 45
-          ? 'linear-gradient(90deg,#c8ff00,#00ff88)'
-          : 'linear-gradient(90deg,#c8ff00,#7fff00)';
+        el('meter-fill').style.background = pct > 45 ? 'linear-gradient(90deg,#c8ff00,#00ff88)' : 'linear-gradient(90deg,#c8ff00,#7fff00)';
         el('meter-txt').textContent = pct > 55 ? '🔊 Strong signal — great!' : '✅ Mic is working!';
         el('meter-txt').style.color = 'var(--acid)';
       } else {
         silentFrames++;
-        if (silentFrames > 90) {
-          el('meter-txt').textContent = 'No signal — speak or check your mic/system settings';
-          el('meter-txt').style.color = 'var(--dim)';
-        }
+        if (silentFrames > 90) { el('meter-txt').textContent = 'No signal detected — speak into your mic'; el('meter-txt').style.color = 'var(--dim)'; }
       }
     }
     tick();
@@ -605,41 +599,99 @@ function stopMicMeter() {
 }
 
 // ─────────────────────────────────────────
-// SPEECH RECOGNITION TEST (lobby only)
+// UNIFIED SPEECH RECOGNIZER
+// One recognizer runs from lobby through race.
+// S.recMode = 'test' | 'race' | 'off'
+// Never stopped/restarted between modes — just switches mode.
 // ─────────────────────────────────────────
+S.recMode = 'off';
+S.recCursor = 0;
+S.masterRec = null;
+
 function startSRTest() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   el('sr-test').style.display = 'block';
   if (!SR) {
-    el('sr-out').textContent = '❌ Speech API not supported — use Chrome or Edge!';
+    el('sr-out').textContent = '❌ Not supported — use Chrome or Edge!';
     el('sr-out').style.color = 'var(--hot)';
     return;
   }
-  if (S.testRec) { try { S.testRec.stop(); } catch(e){} }
+
+  // If already running, just switch mode
+  if (S.masterRec) { S.recMode = 'test'; S.recCursor = 0; return; }
+
   const rec = new SR();
-  S.testRec = rec;
+  S.masterRec = rec;
   rec.continuous = true;
   rec.interimResults = true;
   rec.lang = 'en-US';
-  rec.onresult = (e) => {
-    let txt = '';
-    for (let i = 0; i < e.results.length; i++) txt += e.results[i][0].transcript;
-    el('sr-out').textContent = '✅ Heard: "' + txt.trim() + '"';
-    el('sr-out').style.color = 'var(--acid)';
+  rec.maxAlternatives = 1;
+
+  rec.onresult = (event) => {
+    if (S.recMode === 'test') {
+      let txt = '';
+      for (let i = 0; i < event.results.length; i++) txt += event.results[i][0].transcript;
+      el('sr-out').textContent = '✅ Heard: "' + txt.trim() + '"';
+      el('sr-out').style.color = 'var(--acid)';
+    } else if (S.recMode === 'race') {
+      if (!S.raceActive || S.myDone) return;
+      if (!S.myStart) S.myStart = Date.now();
+      let full = '';
+      for (let i = 0; i < event.results.length; i++) full += ' ' + event.results[i][0].transcript;
+      const allWords = full.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      if (allWords.length > S.recCursor) {
+        const newWords = allWords.slice(S.recCursor);
+        S.recCursor += matchWords(newWords);
+      }
+      const last = event.results[event.results.length - 1];
+      if (!last.isFinal) { el('hint-me').textContent = '💬 ' + last[0].transcript.trim(); }
+      else if (S.myIdx < S.words.length) { el('hint-me').textContent = '→ ' + S.words[S.myIdx]; }
+      el('mdot').classList.add('on');
+      el('rcard-me').classList.add('live');
+    }
   };
+
+  rec.onspeechend = () => {
+    el('mdot').classList.remove('on');
+    el('rcard-me').classList.remove('live');
+  };
+
   rec.onerror = (e) => {
+    console.warn('SR error:', e.error, 'mode:', S.recMode);
     if (e.error === 'no-speech') return;
-    el('sr-out').textContent = '❌ ' + e.error + (e.error === 'not-allowed' ? ' — mic permission blocked' : '');
-    el('sr-out').style.color = 'var(--hot)';
+    if (e.error === 'not-allowed') {
+      toast('❌ Mic blocked. Click the lock icon in your address bar → Allow Microphone → refresh.', 8000);
+    }
   };
+
   rec.onend = () => {
-    if (S.stream && !S.raceActive) setTimeout(() => { try { rec.start(); } catch(e){} }, 300);
+    el('mdot').classList.remove('on');
+    // Auto-restart unless we deliberately stopped
+    if (S.recMode !== 'off') {
+      S.recCursor = 0; // transcript resets on new session
+      setTimeout(() => {
+        if (S.recMode !== 'off') {
+          try { rec.start(); } catch(e) { console.warn('rec restart fail:', e); }
+        }
+      }, 250);
+    }
   };
-  try { rec.start(); } catch(e) { console.warn('SR test start error:', e); }
+
+  S.recMode = 'test';
+  try { rec.start(); } catch(e) { console.warn('masterRec start error:', e); }
+}
+
+function switchRecToRace() {
+  S.recMode = 'race';
+  S.recCursor = 0;
+  console.log('Switched recognizer to race mode');
 }
 
 function stopSRTest() {
-  if (S.testRec) { try { S.testRec.stop(); } catch(e){} S.testRec = null; }
+  // Don't stop — just switch to off so onend doesn't restart
+  // Will be switched to 'race' mode by switchRecToRace()
+  // Only truly stop if no race is happening
+  if (!S.raceActive) S.recMode = 'off';
 }
 
 // ─────────────────────────────────────────
@@ -719,12 +771,8 @@ socket.on('opponent_left', ({ players }) => {
 
 socket.on('race_countdown', ({ passage }) => {
   S.passage = passage;
-  // Kill test rec and meter immediately so they don't fight the race rec
-  stopSRTest();
   stopMicMeter();
-  if (S.rec) { try { S.rec.stop(); } catch(e){} S.rec = null; }
   goScreen('game');
-  // Set up game UI and run countdown — rec starts when race_start arrives
   initRaceUI();
   startCountdown(() => {});
 });
@@ -732,12 +780,10 @@ socket.on('race_countdown', ({ passage }) => {
 socket.on('race_start', ({ passage, startTime }) => {
   S.passage = passage;
   S.raceStart = startTime;
-  // UI setup happens immediately when race_countdown fires, so by the time
-  // race_start arrives (4s later from server) the countdown is done.
-  // Start rec right away — the race is live.
   S.raceActive = true;
   el('hint-me').textContent = '🎤 Speak now — go fast!';
-  startRaceRec();
+  // Switch the already-running recognizer into race mode — no stop/start needed
+  switchRecToRace();
 });
 
 socket.on('opponent_update', ({ progress, wpm }) => {
@@ -869,84 +915,9 @@ function startCountdown(onDone) {
   }, 1000);
 }
 
-// ─────────────────────────────────────────
-// RACE SPEECH RECOGNITION
-// ─────────────────────────────────────────
-function startRaceRec() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { toast('Speech recognition needs Chrome or Edge!', 6000); return; }
-
-  if (S.rec) { try { S.rec.stop(); } catch(e){} }
-
-  const rec = new SR();
-  S.rec = rec;
-  rec.continuous = true;
-  rec.interimResults = true;
-  rec.lang = 'en-US';
-  rec.maxAlternatives = 1;
-
-  let cursor = 0; // words consumed from this session's cumulative transcript
-
-  rec.onstart = () => { cursor = 0; };
-
-  rec.onresult = (event) => {
-    if (!S.raceActive || S.myDone) return;
-    if (!S.myStart) S.myStart = Date.now();
-
-    // Build full cumulative transcript for this session
-    let full = '';
-    for (let i = 0; i < event.results.length; i++) {
-      full += ' ' + event.results[i][0].transcript;
-    }
-    const allWords = full.trim().toLowerCase().split(/\s+/).filter(Boolean);
-
-    // Only process NEW words beyond the cursor
-    if (allWords.length > cursor) {
-      const newWords = allWords.slice(cursor);
-      cursor += matchWords(newWords);
-    }
-
-    // Show live interim
-    const last = event.results[event.results.length - 1];
-    if (!last.isFinal) {
-      el('hint-me').textContent = '💬 ' + last[0].transcript.trim();
-    } else if (S.myIdx < S.words.length) {
-      el('hint-me').textContent = '→ ' + S.words[S.myIdx];
-    }
-
-    el('mdot').classList.add('on');
-    el('rcard-me').classList.add('live');
-  };
-
-  rec.onspeechend = () => {
-    el('mdot').classList.remove('on');
-    el('rcard-me').classList.remove('live');
-  };
-
-  rec.onerror = (e) => {
-    console.warn('Race SR error:', e.error);
-    if (e.error === 'no-speech' || e.error === 'aborted') return;
-    if (e.error === 'not-allowed') {
-      toast('❌ Mic blocked during race. Check browser permissions.', 6000);
-      el('hint-me').textContent = '❌ Mic blocked';
-    }
-  };
-
-  rec.onend = () => {
-    el('mdot').classList.remove('on');
-    el('rcard-me').classList.remove('live');
-    if (S.raceActive && !S.myDone) {
-      cursor = 0;
-      setTimeout(() => {
-        if (S.raceActive && !S.myDone) {
-          try { rec.start(); } catch(e){ console.warn('rec restart:', e); }
-        }
-      }, 200);
-    }
-  };
-
-  try { rec.start(); } catch(e) { console.error('rec.start() error:', e); toast('Could not start mic: ' + e.message, 5000); }
-}
+// startRaceRec is now handled by switchRecToRace() — the unified
+// masterRec is already running from lobby, we just switch its mode.
+function startRaceRec() { switchRecToRace(); }
 
 // ─────────────────────────────────────────
 // WORD MATCHING
