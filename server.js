@@ -12,6 +12,10 @@ const io = new Server(server, {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // ── PASSAGES ──
 const passages = [
   "The quick brown fox jumps over the lazy dog near the old wooden fence by the river bank.",
