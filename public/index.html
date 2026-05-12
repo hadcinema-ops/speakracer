@@ -516,25 +516,63 @@ function checkSpeechAPI(){
   else{b.textContent='ðŸ—£ Not supported â€” use Chrome/Edge';b.className='bdg err';}
 }
 async function enableMedia(withVideo){
-  const c=withVideo
-    ?{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true},video:{facingMode:'user'}}
-    :{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true},video:false};
+  // First try camera+mic together, fall back to mic-only if camera fails
+  const tryGetMedia = async (constraints) => {
+    return await navigator.mediaDevices.getUserMedia(constraints);
+  };
+
+  let stream = null;
+  let gotVideo = false;
+
   try{
-    const stream=await navigator.mediaDevices.getUserMedia(c);
-    st.stream=stream;st.micOnly=!withVideo;
-    if(withVideo&&stream.getVideoTracks().length){
+    if(withVideo){
+      try{
+        stream = await tryGetMedia({audio:true, video:{facingMode:'user'}});
+        gotVideo = stream.getVideoTracks().length > 0;
+      }catch(videoErr){
+        // camera failed â€” try mic only
+        console.warn('Camera failed, trying mic only:', videoErr);
+        stream = await tryGetMedia({audio:true, video:false});
+        gotVideo = false;
+        toast('âš ï¸ Camera blocked, mic-only mode enabled.',4000);
+      }
+    } else {
+      stream = await tryGetMedia({audio:true, video:false});
+    }
+
+    st.stream = stream;
+    st.micOnly = !gotVideo;
+
+    if(gotVideo){
       const lv=g('lobby-video');lv.srcObject=stream;lv.style.display='block';
       g('lobby-no-cam').style.display='none';
       g('badge-cam').textContent='ðŸ“· Camera: active';g('badge-cam').className='bdg ok';
     }else{
       g('badge-cam').textContent='ðŸ“· Camera: off';g('badge-cam').className='bdg warn';
     }
-    g('badge-mic').textContent='ðŸŽ¤ Mic: active';g('badge-mic').className='bdg ok';
-    toast(withVideo?'âœ… Camera & mic enabled!':'âœ… Mic enabled!');
+
+    // Confirm mic track is actually present and live
+    const audioTracks = stream.getAudioTracks();
+    if(audioTracks.length > 0 && audioTracks[0].readyState === 'live'){
+      g('badge-mic').textContent='ðŸŽ¤ Mic: active';g('badge-mic').className='bdg ok';
+      toast(gotVideo?'âœ… Camera & mic enabled!':'âœ… Mic enabled â€” you're ready to race!');
+    } else {
+      g('badge-mic').textContent='ðŸŽ¤ Mic: no signal';g('badge-mic').className='bdg err';
+      toast('âš ï¸ Mic permission granted but no audio signal detected. Check your mic.',5000);
+    }
+
   }catch(err){
-    const m={NotAllowedError:'Permission denied. Click the lock icon in your address bar.',NotFoundError:'No mic found.'};
-    toast('âŒ '+(m[err.name]||err.message),6000);
-    g('badge-mic').textContent='ðŸŽ¤ '+err.name;g('badge-mic').className='bdg err';
+    console.error('getUserMedia error:', err.name, err.message);
+    if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
+      toast('âŒ Mic access denied. Click the ðŸ”’ lock icon in your browser address bar â†’ set Microphone to Allow â†’ refresh the page.',9000);
+      g('badge-mic').textContent='ðŸŽ¤ Mic: permission denied';g('badge-mic').className='bdg err';
+    } else if(err.name==='NotFoundError'){
+      toast('âŒ No microphone found. Plug in a mic or headset and try again.',6000);
+      g('badge-mic').textContent='ðŸŽ¤ Mic: not found';g('badge-mic').className='bdg err';
+    } else {
+      toast('âŒ Mic error: '+err.name+' â€” '+err.message,6000);
+      g('badge-mic').textContent='ðŸŽ¤ Mic: error';g('badge-mic').className='bdg err';
+    }
   }
 }
 
@@ -778,8 +816,25 @@ function startRecognition(){
     g('mdot').classList.add('on');g('rcard-me').classList.add('live');
   };
   rec.onspeechend=()=>{ g('mdot').classList.remove('on');g('rcard-me').classList.remove('live'); };
-  rec.onerror=(e)=>{ if(e.error==='no-speech'||e.error==='aborted')return; console.warn(e.error); };
-  rec.onend=()=>{ g('mdot').classList.remove('on'); if(st.raceActive&&!st.myDone){cursor=0;try{rec.start();}catch(e){}} };
+  rec.onerror=(e)=>{
+    console.warn('SR error:',e.error);
+    if(e.error==='no-speech'||e.error==='aborted')return;
+    if(e.error==='not-allowed'){
+      toast('âŒ Mic permission denied. Click the lock icon in your browser address bar, allow Microphone, then refresh.',8000);
+      g('hint-me').textContent='âŒ Mic blocked â€” check browser permissions';
+    } else if(e.error==='audio-capture'){
+      toast('âŒ No microphone found or mic is in use by another app.',6000);
+    } else {
+      toast('Mic error: '+e.error,5000);
+    }
+  };
+  rec.onend=()=>{
+    g('mdot').classList.remove('on');
+    if(st.raceActive&&!st.myDone){
+      cursor=0;
+      setTimeout(()=>{ try{rec.start();}catch(e){console.warn('rec restart fail',e);} },200);
+    }
+  };
   try{rec.start();}catch(e){console.error(e);}
 }
 
