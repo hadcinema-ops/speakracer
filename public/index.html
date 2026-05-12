@@ -719,17 +719,25 @@ socket.on('opponent_left', ({ players }) => {
 
 socket.on('race_countdown', ({ passage }) => {
   S.passage = passage;
+  // Kill test rec and meter immediately so they don't fight the race rec
   stopSRTest();
   stopMicMeter();
+  if (S.rec) { try { S.rec.stop(); } catch(e){} S.rec = null; }
   goScreen('game');
+  // Set up game UI and run countdown — rec starts when race_start arrives
+  initRaceUI();
   startCountdown(() => {});
 });
 
 socket.on('race_start', ({ passage, startTime }) => {
   S.passage = passage;
   S.raceStart = startTime;
+  // UI setup happens immediately when race_countdown fires, so by the time
+  // race_start arrives (4s later from server) the countdown is done.
+  // Start rec right away — the race is live.
   S.raceActive = true;
-  initRaceLocal();
+  el('hint-me').textContent = '🎤 Speak now — go fast!';
+  startRaceRec();
 });
 
 socket.on('opponent_update', ({ progress, wpm }) => {
@@ -782,7 +790,7 @@ function updateLobbyPlayers(players) {
 // ─────────────────────────────────────────
 // RACE LOCAL SETUP
 // ─────────────────────────────────────────
-function initRaceLocal() {
+function initRaceUI() {
   S.words = S.passage.split(/\s+/).filter(Boolean);
   S.myIdx = 0; S.oppIdx = 0; S.myDone = false;
   S.myStart = null; S.myCorrect = 0; S.myTotal = 0;
@@ -795,7 +803,6 @@ function initRaceLocal() {
     el('game-nocam').style.display = 'none';
   }
 
-  // Build race text
   el('race-text').innerHTML = S.words.map((w, i) => `<span class="w pend" id="w${i}">${w}</span>`).join(' ');
   setWord(0, 'curr');
 
@@ -803,11 +810,15 @@ function initRaceLocal() {
   el('me-ct').textContent = '0'; el('opp-ct').textContent = '0';
   el('me-wpm').textContent = '0 WPM'; el('opp-wpm').textContent = '0 WPM';
   el('gtimer').textContent = '0:00';
-  el('hint-me').textContent = '🎤 Speak now — go!';
-  el('hint-opp').textContent = 'Racing…';
+  el('hint-me').textContent = 'Get ready…';
+  el('hint-opp').textContent = 'Get ready…';
   el('mdot').classList.remove('on');
 
   startClock();
+}
+
+function initRaceLocal() {
+  initRaceUI();
   startRaceRec();
 }
 
@@ -923,9 +934,14 @@ function startRaceRec() {
 
   rec.onend = () => {
     el('mdot').classList.remove('on');
+    el('rcard-me').classList.remove('live');
     if (S.raceActive && !S.myDone) {
-      cursor = 0; // transcript resets on new session
-      setTimeout(() => { try { rec.start(); } catch(e){ console.warn('rec restart:', e); } }, 150);
+      cursor = 0;
+      setTimeout(() => {
+        if (S.raceActive && !S.myDone) {
+          try { rec.start(); } catch(e){ console.warn('rec restart:', e); }
+        }
+      }, 200);
     }
   };
 

@@ -147,7 +147,7 @@ io.on('connection', (socket) => {
         passage: rooms[roomId].passage,
         startTime: rooms[roomId].startTime,
       });
-    }, 3500);
+    }, 4000);
   });
 
   // Player progress update
