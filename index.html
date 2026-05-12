@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeakRacer — Talk Fast. Win.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="/socket.io/socket.io.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#080808;--paper:#f5f0e8;--acid:#c8ff00;--hot:#ff2d55;
+  --blue:#40c4ff;--smoke:#141414;--dim:#888;--border:rgba(245,240,232,.08);
+  --r4:4px;--r8:8px;--r12:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;min-height:100vh;overflow-x:hidden}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .12s steps(1) infinite;
+}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,3%)}50%{transform:translate(3%,-1%)}75%{transform:translate(-1%,4%)}100%{transform:translate(2%,-3%)} }
+
+.screen{display:none}.screen.active{display:block}
+
+/* ══ SHARED NAV ══ */
+.top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 2rem;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:rgba(8,8,8,.92);backdrop-filter:blur(10px);z-index:50;
+}
+.logo{font-family:'Archivo Black',sans-serif;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acid)}
+.mono{font-family:'Space Mono',monospace}
+.pill{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.28rem .7rem;border-radius:999px;border:1px solid var(--border);color:var(--dim)}
+
+/* ══ LANDING ══ */
+#screen-land{min-height:100vh;position:relative;overflow:hidden}
+.bg-stamp{position:absolute;font-family:'Archivo Black',sans-serif;font-weight:900;line-height:1;color:transparent;user-select:none;pointer-events:none;-webkit-text-stroke:1px rgba(200,255,0,.055)}
+.bgs1{font-size:clamp(120px,18vw,260px);top:-2%;left:-2%;animation:bgD1 14s ease-in-out infinite alternate}
+.bgs2{font-size:clamp(100px,14vw,200px);bottom:4%;right:-3%;animation:bgD2 16s ease-in-out infinite alternate}
+@keyframes bgD1{from{transform:rotate(-3deg)}to{transform:rotate(0deg) translate(1%,1%)}}
+@keyframes bgD2{from{transform:rotate(2deg)}to{transform:rotate(-1deg) translate(-1%,-1%)}}
+
+.hero{position:relative;z-index:10;padding:2.5rem 2.5rem 0;max-width:1100px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--acid);margin-bottom:1.75rem;animation:fu .6s .1s both}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--acid)}
+.h1{font-family:'Archivo Black',sans-serif;font-size:clamp(68px,13vw,175px);font-weight:900;line-height:.88;letter-spacing:-.03em;text-transform:uppercase;animation:fu .7s .2s both}
+.h1 .ol{color:transparent;-webkit-text-stroke:2px var(--paper)}
+.h1 .ac{color:var(--acid)}
+.hero-lower{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2rem 0 2.5rem;animation:fu .7s .35s both}
+.hero-sub{font-size:clamp(.88rem,1.7vw,1.05rem);color:rgba(245,240,232,.48);max-width:400px;line-height:1.8}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap;flex-shrink:0}
+@keyframes fu{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+.btn-acid{font-family:'Archivo Black',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 2.2rem;border-radius:var(--r4);border:none;cursor:pointer;background:var(--acid);color:var(--ink);box-shadow:0 0 35px rgba(200,255,0,.22);transition:all .17s;display:inline-flex;align-items:center;gap:.4rem}
+.btn-acid:hover{background:#d8ff00;box-shadow:0 0 55px rgba(200,255,0,.4);transform:translateY(-2px) scale(1.02)}
+.btn-ghost{font-family:'Archivo Black',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 1.8rem;border-radius:var(--r4);border:1px solid rgba(245,240,232,.2);cursor:pointer;background:transparent;color:var(--paper);transition:all .17s}
+.btn-ghost:hover{border-color:rgba(245,240,232,.5);transform:translateY(-2px)}
+
+hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
+
+.stat-rib{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.stat-cell{padding:1.6rem 2.5rem;border-right:1px solid var(--border)}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:'Archivo Black',sans-serif;font-size:2rem;color:var(--acid);line-height:1;margin-bottom:.3rem}
+.stat-l{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;font-family:'Space Mono',monospace}
+
+.feat-row{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
+.feat{padding:2.5rem;border-right:1px solid var(--border);transition:background .2s}
+.feat:last-child{border-right:none}
+.feat:hover{background:rgba(245,240,232,.02)}
+.feat-ic{font-size:1.5rem;margin-bottom:1rem;display:block}
+.feat-t{font-family:'Archivo Black',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.feat-d{font-size:.75rem;color:var(--dim);line-height:1.75}
+
+.land-cta{padding:5rem 2.5rem 6rem;text-align:center}
+.land-cta h2{font-family:'Archivo Black',sans-serif;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:2.5rem}
+.land-cta h2 em{font-style:normal;color:var(--acid)}
+
+/* ══ SHARED PANEL SYSTEM ══ */
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.5rem}
+.pg-title{font-family:'Archivo Black',sans-serif;font-size:1.75rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.3rem}
+.pg-sub{font-size:.8rem;color:var(--dim);margin-bottom:1.75rem}
+.panel{background:rgba(245,240,232,.025);border:1px solid var(--border);border-radius:var(--r12);padding:1.35rem;margin-bottom:.8rem}
+.ptag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acid);margin-bottom:.9rem}
+.inp{width:100%;background:rgba(245,240,232,.04);border:1px solid rgba(245,240,232,.1);border-radius:var(--r8);padding:.65rem .9rem;color:var(--paper);font-size:.95rem;font-family:'Archivo',sans-serif;margin-bottom:.8rem;transition:border-color .15s}
+.inp:focus{outline:none;border-color:var(--acid)}
+.bdg-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.bdg{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);color:var(--dim)}
+.bdg.ok{border-color:rgba(200,255,0,.4);color:var(--acid)}
+.bdg.err{border-color:rgba(255,45,85,.35);color:var(--hot)}
+.bdg.warn{border-color:rgba(255,170,0,.3);color:orange}
+.btn-row{display:flex;gap:.6rem;flex-wrap:wrap}
+
+.abtn{font-family:'Archivo Black',sans-serif;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.58rem 1.3rem;border-radius:var(--r4);border:none;cursor:pointer;transition:all .14s;display:inline-flex;align-items:center;gap:.35rem}
+.abtn-acid{background:var(--acid);color:var(--ink)}
+.abtn-acid:hover{background:#d8ff00;transform:translateY(-1px)}
+.abtn-g{background:rgba(245,240,232,.06);border:1px solid rgba(245,240,232,.1);color:var(--paper)}
+.abtn-g:hover{border-color:rgba(245,240,232,.3);transform:translateY(-1px)}
+.abtn-hot{background:var(--hot);color:#fff}
+.abtn-hot:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.abtn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* ══ ROOM CODE DISPLAY ══ */
+.room-code-box{
+  background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.25);
+  border-radius:var(--r12);padding:1.5rem;text-align:center;margin-bottom:.8rem;
+}
+.room-code-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acid);margin-bottom:.5rem}
+.room-code{font-family:'Archivo Black',sans-serif;font-size:3rem;letter-spacing:.3em;color:var(--acid);line-height:1;margin-bottom:.75rem}
+.room-code-hint{font-size:.75rem;color:rgba(245,240,232,.45);line-height:1.6}
+.copy-link-btn{margin-top:.75rem}
+
+/* ══ PLAYER SLOTS ══ */
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.slot{border:1px solid var(--border);border-radius:var(--r12);padding:.85rem;text-align:center;transition:all .3s}
+.slot.ready{border-color:rgba(200,255,0,.3);background:rgba(200,255,0,.015)}
+.slot.waiting{border-style:dashed}
+.slot-cam{width:100%;aspect-ratio:16/9;border-radius:var(--r8);background:#060606;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:.65rem}
+.slot-cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot-nm{font-family:'Archivo Black',sans-serif;font-size:.88rem;text-transform:uppercase;letter-spacing:.05em}
+.slot-st{font-size:.65rem;color:var(--dim);margin-top:.2rem}
+.slot-st.ok{color:var(--acid)}
+.waiting-pulse{animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ══ GAME ══ */
+.game-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,.92);backdrop-filter:blur(10px);z-index:50}
+.game-clock{font-family:'Space Mono',monospace;font-size:1.5rem;color:var(--acid);letter-spacing:.1em}
+
+.racers{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.9rem}
+.rcard{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:.9rem;transition:border-color .2s,box-shadow .2s}
+.rcard.live{border-color:rgba(200,255,0,.4);box-shadow:0 0 20px rgba(200,255,0,.06)}
+.rcard-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem}
+.rcard-vid{width:64px;height:48px;border-radius:var(--r8);background:#060606;overflow:hidden;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.rcard-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rcard-info{flex:1;min-width:0}
+.rcard-name{font-family:'Archivo Black',sans-serif;font-size:.88rem;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:.35rem}
+.rcard-wpm{font-size:.62rem;color:var(--dim);margin-top:.1rem;font-family:'Space Mono',monospace}
+.rcard-ct{font-family:'Archivo Black',sans-serif;font-size:1.5rem;color:var(--acid);flex-shrink:0}
+.rcard-ct.opp{color:var(--blue)}
+.pbar-t{background:rgba(245,240,232,.05);border-radius:999px;height:5px;overflow:hidden;margin-bottom:.3rem}
+.pbar-f{height:100%;border-radius:999px;background:var(--acid);transition:width .18s}
+.pbar-f.opp{background:var(--blue)}
+.hint-txt{font-size:.65rem;color:var(--dim);font-style:italic;font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:.85rem}
+.mdot{width:8px;height:8px;border-radius:50%;background:var(--hot);flex-shrink:0;transition:all .15s}
+.mdot.on{background:var(--acid);box-shadow:0 0 8px rgba(200,255,0,.8)}
+
+.race-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:1.6rem;margin-bottom:.8rem;font-family:'Archivo',sans-serif;font-size:1.18rem;line-height:2.1}
+.w{padding:1px 3px;border-radius:3px;transition:all .07s}
+.w.done{color:var(--acid)}
+.w.curr{background:rgba(200,255,0,.13);color:#d8ff00;font-weight:600;text-shadow:0 0 10px rgba(200,255,0,.3)}
+.w.bad{background:rgba(255,45,85,.18);color:var(--hot)}
+.w.pend{color:rgba(245,240,232,.27)}
+
+.game-ctrl{display:flex;justify-content:center;gap:.65rem;margin-top:.5rem}
+
+/* ══ COUNTDOWN ══ */
+#cd-overlay{position:fixed;inset:0;background:rgba(8,8,8,.93);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:999}
+.cd-n{font-family:'Archivo Black',sans-serif;font-size:clamp(130px,22vw,250px);line-height:1;color:var(--acid);text-shadow:0 0 90px rgba(200,255,0,.3);animation:cdPop .55s cubic-bezier(.34,1.56,.64,1)}
+.cd-h{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,240,232,.3);margin-top:1rem}
+@keyframes cdPop{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ══ RESULTS ══ */
+.res-wrap{max-width:660px;margin:0 auto;padding:3rem 1.5rem}
+.res-center{text-align:center;margin-bottom:2.5rem}
+.res-ico{font-size:3.5rem;display:block;margin-bottom:1rem;animation:bounce .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bounce{from{transform:scale(0) rotate(-15deg)}to{transform:scale(1) rotate(0)}}
+.res-title{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,6.5vw,4rem);text-transform:uppercase;letter-spacing:-.01em;line-height:.92}
+.res-note{font-size:.82rem;color:var(--dim);margin-top:.65rem}
+.res-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.75rem}
+.res-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:1rem .65rem;text-align:center}
+.res-v{font-family:'Archivo Black',sans-serif;font-size:1.85rem;letter-spacing:.02em;color:var(--acid);line-height:1;margin-bottom:.3rem}
+.res-v.b{color:var(--blue)}
+.res-lbl{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-family:'Space Mono',monospace}
+.res-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#141414;border:1px solid rgba(245,240,232,.1);border-radius:var(--r8);padding:.6rem .9rem;font-size:.73rem;z-index:10000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:280px;font-family:'Space Mono',monospace}
+.toast.show{opacity:1}
+
+/* ══ JOIN MODAL ══ */
+#join-modal{position:fixed;inset:0;background:rgba(8,8,8,.9);display:none;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(6px)}
+.modal-box{background:#111;border:1px solid var(--border);border-radius:var(--r12);padding:2rem;max-width:380px;width:90%}
+.modal-title{font-family:'Archivo Black',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.25rem}
+.modal-input{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(245,240,232,.12);border-radius:var(--r8);padding:.65rem .9rem;color:var(--paper);font-size:1.1rem;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.15em;margin-bottom:.75rem}
+.modal-input:focus{outline:none;border-color:var(--acid)}
+.modal-btns{display:flex;gap:.6rem}
+
+@media(max-width:680px){
+  .feat-row{grid-template-columns:1fr}
+  .stat-rib{grid-template-columns:1fr 1fr}
+  .slots,.racers,.res-stats{grid-template-columns:1fr}
+  .h1{font-size:clamp(52px,15vw,80px)}
+  .hero,.hero-lower,.hr.rule,.stat-rib,.feat-row,.land-cta{padding-left:1.2rem;padding-right:1.2rem}
+  .stat-cell,.feat{padding:1.4rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LANDING ══════════ -->
+<div class="screen active" id="screen-land">
+  <span class="bg-stamp bgs1">FAST</span>
+  <span class="bg-stamp bgs2">TALK</span>
+  <nav class="top-bar">
+    <div class="logo">SpeakRacer</div>
+    <div class="pill mono">Chrome / Edge Only</div>
+  </nav>
+  <div class="hero">
+    <div class="eyebrow">The Multiplayer Voice Racing Game</div>
+    <h1 class="h1">
+      <span>Talk</span><br>
+      <span class="ac">Fast.</span><br>
+      <span class="ol">Win.</span>
+    </h1>
+    <div class="hero-lower">
+      <p class="hero-sub">Real-time speech recognition turns your voice into a race. Challenge a friend with a link. First to say every word wins.</p>
+      <div class="hero-btns">
+        <button class="btn-acid" onclick="showLobby()">▶ &nbsp;Play Now</button>
+        <button class="btn-ghost" onclick="showJoinModal()">Join Room</button>
+      </div>
+    </div>
+  </div>
+  <hr class="rule">
+  <div class="stat-rib">
+    <div class="stat-cell"><div class="stat-n">2</div><div class="stat-l">Players</div></div>
+    <div class="stat-cell"><div class="stat-n">Live</div><div class="stat-l">Real-Time</div></div>
+    <div class="stat-cell"><div class="stat-n">∞</div><div class="stat-l">Passages</div></div>
+    <div class="stat-cell"><div class="stat-n">AI</div><div class="stat-l">Powered</div></div>
+  </div>
+  <div class="feat-row">
+    <div class="feat">
+      <span class="feat-ic">🔗</span>
+      <div class="feat-t">Instant Rooms</div>
+      <div class="feat-d">Create a room, share the 6-character code or link. Your friend joins in one click. No account needed.</div>
+    </div>
+    <div class="feat">
+      <span class="feat-ic">⚡</span>
+      <div class="feat-t">Live Recognition</div>
+      <div class="feat-d">Every word you say lights up instantly. Both players see each other's progress in real time.</div>
+    </div>
+    <div class="feat">
+      <span class="feat-ic">📷</span>
+      <div class="feat-t">Face-to-Face</div>
+      <div class="feat-d">Camera feeds show both racers live. Watch your friend's face as you leave them in the dust.</div>
+    </div>
+  </div>
+  <div class="land-cta">
+    <h2>Your voice.<br><em>Their loss.</em></h2>
+    <button class="btn-acid" style="font-size:1rem;padding:.9rem 2.8rem" onclick="showLobby()">▶ &nbsp;Create Room</button>
+  </div>
+</div>
+
+<!-- ══════════ LOBBY ══════════ -->
+<div class="screen" id="screen-lobby">
+  <nav class="top-bar">
+    <button class="btn-ghost" style="padding:.4rem .9rem;font-size:.7rem" onclick="setScreen('land')">← Back</button>
+    <div class="logo">SpeakRacer</div>
+    <span class="bdg mono" id="badge-sr" style="font-size:.6rem">Checking…</span>
+  </nav>
+  <div class="wrap">
+    <div class="pg-title">Race Lobby</div>
+    <div class="pg-sub" id="lobby-sub">Set up your mic, then create or join a room.</div>
+
+    <!-- setup -->
+    <div class="panel">
+      <div class="ptag">Your Setup</div>
+      <input class="inp" id="p1name" placeholder="Your name…" maxlength="20" value="Player 1">
+      <div class="bdg-row">
+        <span class="bdg" id="badge-cam">📷 Camera: off</span>
+        <span class="bdg" id="badge-mic">🎤 Mic: off</span>
+      </div>
+      <div class="btn-row">
+        <button class="abtn abtn-acid" id="btn-enable">Enable Camera &amp; Mic</button>
+        <button class="abtn abtn-g" id="btn-mic-only">Mic Only</button>
+      </div>
+    </div>
+
+    <!-- room actions -->
+    <div class="panel" id="panel-room-actions">
+      <div class="ptag">Room</div>
+      <div class="btn-row">
+        <button class="abtn abtn-acid" id="btn-create-room">🏠 Create Room</button>
+        <button class="abtn abtn-g" id="btn-join-room">🔗 Join Room</button>
+      </div>
+    </div>
+
+    <!-- room code (shown after create) -->
+    <div id="panel-room-code" style="display:none">
+      <div class="room-code-box">
+        <div class="room-code-label">Your Room Code</div>
+        <div class="room-code" id="room-code-display">———</div>
+        <div class="room-code-hint">Share this code with your friend so they can join.<br>Or copy the link below.</div>
+        <button class="abtn abtn-g copy-link-btn" id="btn-copy-link">📋 Copy Invite Link</button>
+      </div>
+    </div>
+
+    <!-- players -->
+    <div class="panel" id="panel-players" style="display:none">
+      <div class="ptag">Players</div>
+      <div class="slots">
+        <div class="slot ready" id="slot-me">
+          <div class="slot-cam">
+            <span id="lobby-no-cam">🙂</span>
+            <video id="lobby-video" autoplay muted playsinline style="display:none"></video>
+          </div>
+          <div class="slot-nm" id="lobby-me-name">You</div>
+          <div class="slot-st ok">Ready</div>
+        </div>
+        <div class="slot waiting" id="slot-opp">
+          <div class="slot-cam"><span class="waiting-pulse">⏳</span></div>
+          <div class="slot-nm">Waiting…</div>
+          <div class="slot-st">Share your room code</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- passage -->
+    <div class="panel" id="panel-passage" style="display:none">
+      <div class="ptag">Passage</div>
+      <div style="display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+        <div style="font-size:.82rem;color:var(--dim);line-height:1.65;flex:1;min-width:180px" id="passage-preview"></div>
+        <div style="display:flex;gap:.5rem;flex-shrink:0">
+          <button class="abtn abtn-g" id="btn-new-passage">🔀 New</button>
+          <button class="abtn abtn-acid" id="btn-start-race" disabled>🏁 Start</button>
+        </div>
+      </div>
+      <div style="font-size:.7rem;color:var(--dim);margin-top:.75rem" id="host-hint"></div>
+    </div>
+
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:.25rem">⚠️ <strong style="color:rgba(245,240,232,.5)">Chrome or Edge only.</strong> Safari doesn't support Web Speech API.</p>
+  </div>
+</div>
+
+<!-- ══════════ GAME ══════════ -->
+<div class="screen" id="screen-game">
+  <nav class="game-nav">
+    <div class="logo" style="font-size:.9rem">SpeakRacer</div>
+    <div class="game-clock" id="race-timer">0:00</div>
+    <div class="mono" style="font-size:.58rem;color:var(--dim);letter-spacing:.12em">LIVE</div>
+  </nav>
+  <div class="wrap" style="padding-top:1.2rem">
+    <div class="racers">
+      <!-- Me -->
+      <div class="rcard" id="rcard-me">
+        <div class="rcard-row">
+          <div class="rcard-vid">
+            <span id="game-no-cam">🙂</span>
+            <video id="game-video" autoplay muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+          </div>
+          <div class="rcard-info">
+            <div class="rcard-name"><span class="mdot" id="mdot"></span><span id="game-me-name">You</span></div>
+            <div class="rcard-wpm" id="me-wpm">0 WPM</div>
+          </div>
+          <div class="rcard-ct" id="me-count">0</div>
+        </div>
+        <div class="pbar-t"><div class="pbar-f" id="bar-me" style="width:0%"></div></div>
+        <div class="hint-txt" id="hint-me">…</div>
+      </div>
+      <!-- Opponent -->
+      <div class="rcard" id="rcard-opp">
+        <div class="rcard-row">
+          <div class="rcard-vid" id="opp-vid-wrap">
+            <span id="opp-emoji">👤</span>
+          </div>
+          <div class="rcard-info">
+            <div class="rcard-name" style="color:var(--blue)" id="opp-name-game">Opponent</div>
+            <div class="rcard-wpm" id="opp-wpm">0 WPM</div>
+          </div>
+          <div class="rcard-ct opp" id="opp-count">0</div>
+        </div>
+        <div class="pbar-t"><div class="pbar-f opp" id="bar-opp" style="width:0%"></div></div>
+        <div class="hint-txt" id="hint-opp">Waiting…</div>
+      </div>
+    </div>
+    <div class="race-box" id="race-text"></div>
+    <div class="game-ctrl">
+      <button class="abtn abtn-g" id="btn-give-up">🏳 Give Up</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RESULTS ══════════ -->
+<div class="screen" id="screen-results">
+  <nav class="top-bar"><div class="logo">SpeakRacer</div></nav>
+  <div class="res-wrap">
+    <div class="res-center">
+      <span class="res-ico" id="res-ico">🏆</span>
+      <div class="res-title" id="res-title">YOU WIN</div>
+      <div class="res-note" id="res-note"></div>
+    </div>
+    <div class="res-stats">
+      <div class="res-box"><div class="res-v" id="res-wpm">—</div><div class="res-lbl">Your WPM</div></div>
+      <div class="res-box"><div class="res-v" id="res-time">—</div><div class="res-lbl">Time</div></div>
+      <div class="res-box"><div class="res-v b" id="res-oppwpm">—</div><div class="res-lbl">Opp WPM</div></div>
+      <div class="res-box"><div class="res-v" id="res-acc">—</div><div class="res-lbl">Accuracy</div></div>
+    </div>
+    <div class="res-btns">
+      <button class="abtn abtn-acid" id="btn-rematch">🔁 Rematch</button>
+      <button class="abtn abtn-g" id="btn-back-lobby">← Lobby</button>
+    </div>
+  </div>
+</div>
+
+<!-- countdown -->
+<div id="cd-overlay">
+  <div class="cd-n" id="cd-num">3</div>
+  <div class="cd-h">Speak as fast as you can</div>
+</div>
+
+<!-- join modal -->
+<div id="join-modal">
+  <div class="modal-box">
+    <div class="modal-title">Join a Room</div>
+    <input class="modal-input" id="join-code-input" placeholder="ENTER CODE" maxlength="6">
+    <div class="modal-btns">
+      <button class="abtn abtn-acid" id="btn-do-join">Join</button>
+      <button class="abtn abtn-g" onclick="hideJoinModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── SOCKET ── */
+const socket = io();
+
+/* ── STATE ── */
+const st = {
+  myId: null,
+  roomId: null,
+  isHost: false,
+  passage: '',
+  words: [],
+  myIndex: 0,
+  oppIndex: 0,
+  myDone: false,
+  raceActive: false,
+  stream: null,
+  rec: null,
+  botTimer: null,
+  clockTimer: null,
+  raceStart: null,
+  myStart: null,
+  myCorrect: 0,
+  myTotal: 0,
+  micOnly: false,
+  oppName: 'Opponent',
+  oppWpm: 0,
+  myFinishTime: null,
+  bestWpm: 0,
+};
+
+/* ── UTILS ── */
+const g = id => document.getElementById(id);
+
+function toast(msg, dur=4000){
+  const t=g('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+function setScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  g('screen-'+id).classList.add('active');
+}
+function norm(w){ return w.toLowerCase().replace(/[^a-z0-9']/g,''); }
+function lev(a,b){
+  if(a===b)return 0;if(Math.abs(a.length-b.length)>3)return 99;
+  const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++)dp[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+function isMatch(said,target){
+  if(!said||!target)return false;
+  if(said===target)return true;
+  if(target.length>3&&said.length>=3&&target.startsWith(said))return true;
+  if(said.length>=3&&target.length>=5&&lev(said,target)<=1)return true;
+  if(said.length>=4&&target.length>=8&&lev(said,target)<=2)return true;
+  return false;
+}
+
+/* ── SCREEN FLOW ── */
+function showLobby(){
+  setScreen('lobby');
+  checkSpeechAPI();
+  // check for ?room= in URL
+  const urlRoom = new URLSearchParams(window.location.search).get('room');
+  if(urlRoom){ g('join-code-input').value=urlRoom.toUpperCase(); autoJoin(urlRoom); }
+}
+function showJoinModal(){
+  g('join-modal').style.display='flex';
+  setTimeout(()=>g('join-code-input').focus(),100);
+}
+function hideJoinModal(){ g('join-modal').style.display='none'; }
+
+function autoJoin(code){
+  showLobby();
+  // wait for name input to be ready
+  setTimeout(()=>{
+    const name=g('p1name').value||'Player 1';
+    socket.emit('join_room',{roomId:code,name});
+  },400);
+}
+
+/* ── MEDIA ── */
+function checkSpeechAPI(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const b=g('badge-sr');
+  if(SR){b.textContent='🗣 Speech API: OK';b.className='bdg ok';}
+  else{b.textContent='🗣 Not supported — use Chrome/Edge';b.className='bdg err';}
+}
+async function enableMedia(withVideo){
+  const c=withVideo
+    ?{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true},video:{facingMode:'user'}}
+    :{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true},video:false};
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia(c);
+    st.stream=stream;st.micOnly=!withVideo;
+    if(withVideo&&stream.getVideoTracks().length){
+      const lv=g('lobby-video');lv.srcObject=stream;lv.style.display='block';
+      g('lobby-no-cam').style.display='none';
+      g('badge-cam').textContent='📷 Camera: active';g('badge-cam').className='bdg ok';
+    }else{
+      g('badge-cam').textContent='📷 Camera: off';g('badge-cam').className='bdg warn';
+    }
+    g('badge-mic').textContent='🎤 Mic: active';g('badge-mic').className='bdg ok';
+    toast(withVideo?'✅ Camera & mic enabled!':'✅ Mic enabled!');
+  }catch(err){
+    const m={NotAllowedError:'Permission denied. Click the lock icon in your address bar.',NotFoundError:'No mic found.'};
+    toast('❌ '+(m[err.name]||err.message),6000);
+    g('badge-mic').textContent='🎤 '+err.name;g('badge-mic').className='bdg err';
+  }
+}
+
+/* ── ROOM ── */
+function createRoom(){
+  const name=g('p1name').value||'Player 1';
+  if(!st.stream){toast('Enable your mic first!',4000);return;}
+  socket.emit('create_room',{name});
+}
+function joinRoomFromModal(){
+  const code=g('join-code-input').value.trim().toUpperCase();
+  if(!code||code.length!==6){toast('Enter a 6-character room code.',3000);return;}
+  if(!st.stream){hideJoinModal();toast('Enable your mic first, then join.',4000);return;}
+  socket.emit('join_room',{roomId:code,name:g('p1name').value||'Player 1'});
+  hideJoinModal();
+}
+
+function copyInviteLink(){
+  const url=`${window.location.origin}?room=${st.roomId}`;
+  navigator.clipboard.writeText(url).then(()=>toast('✅ Link copied! Send it to your friend.')).catch(()=>{
+    prompt('Copy this link:',url);
+  });
+}
+
+/* ── SOCKET EVENTS ── */
+socket.on('connect',()=>{ st.myId=socket.id; });
+
+socket.on('room_joined',({roomId,passage,isHost,players})=>{
+  st.roomId=roomId;st.isHost=isHost;st.passage=passage;
+  g('room-code-display').textContent=roomId;
+  g('passage-preview').textContent=passage;
+  g('panel-room-code').style.display=isHost?'block':'none';
+  g('panel-players').style.display='block';
+  g('panel-passage').style.display='block';
+  g('panel-room-actions').style.display='none';
+  g('lobby-me-name').textContent=g('p1name').value||'Player 1';
+
+  if(isHost){
+    g('host-hint').textContent='You are the host. Hit Start when your friend joins.';
+    g('btn-start-race').disabled=true;
+    g('btn-new-passage').style.display='inline-flex';
+  }else{
+    g('host-hint').textContent='Waiting for host to start the race…';
+    g('btn-start-race').style.display='none';
+    g('btn-new-passage').style.display='none';
+  }
+  updateLobbyPlayers(players);
+  // update URL so reloading works
+  history.replaceState({},'',`?room=${roomId}`);
+});
+
+socket.on('room_update',({players})=>{ updateLobbyPlayers(players); });
+
+socket.on('passage_changed',({passage})=>{
+  st.passage=passage;
+  g('passage-preview').textContent=passage;
+  toast('📖 New passage!');
+});
+
+socket.on('opponent_left',({players})=>{
+  toast('⚠️ Opponent left the room.',5000);
+  updateLobbyPlayers(players);
+  g('btn-start-race').disabled=true;
+  if(st.raceActive) endRaceAborted();
+});
+
+socket.on('race_countdown',({passage})=>{
+  st.passage=passage;
+  g('passage-preview').textContent=passage;
+  setScreen('game');
+  showCountdown(()=>{/* race_start fires from server */});
+});
+
+socket.on('race_start',({passage,startTime})=>{
+  st.passage=passage;
+  st.raceStart=startTime;
+  st.raceActive=true;
+  startRaceLocal();
+});
+
+socket.on('opponent_update',({id,progress,wpm})=>{
+  st.oppIndex=progress;
+  st.oppWpm=wpm;
+  updateOppBars();
+  g('hint-opp').textContent=wpm+' WPM · word '+progress;
+});
+
+socket.on('player_finished',({id,name,wpm,accuracy,elapsed,players})=>{
+  if(id===st.myId) return; // we handle our own finish
+  st.oppIndex=st.words.length;
+  updateOppBars();
+  if(!st.myDone){
+    // opponent finished first
+    showResults({winner:'opp', oppWpm:wpm, oppTime:elapsed});
+  }
+});
+
+socket.on('race_over',({players})=>{
+  // Both done — handled by individual finish events
+});
+
+socket.on('rematch_ready',({passage,players})=>{
+  st.passage=passage;
+  g('passage-preview').textContent=passage;
+  updateLobbyPlayers(players);
+  setScreen('lobby');
+  g('panel-room-code').style.display=st.isHost?'block':'none';
+  g('panel-players').style.display='block';
+  g('panel-passage').style.display='block';
+  g('panel-room-actions').style.display='none';
+  if(st.isHost){
+    g('btn-start-race').disabled=false;
+    g('host-hint').textContent='Ready for rematch. Hit Start!';
+  }
+  toast('🔁 Rematch ready!');
+});
+
+socket.on('error_msg',(msg)=>{ toast('❌ '+msg,5000); });
+
+function updateLobbyPlayers(players){
+  const me=players.find(p=>p.id===st.myId);
+  const opp=players.find(p=>p.id!==st.myId);
+  if(me) g('lobby-me-name').textContent=me.name;
+  const slot=g('slot-opp');
+  if(opp){
+    st.oppName=opp.name;
+    slot.className='slot ready';
+    slot.innerHTML=`
+      <div class="slot-cam">👤</div>
+      <div class="slot-nm">${opp.name}</div>
+      <div class="slot-st ok">✅ Joined · Ready</div>`;
+    if(st.isHost) g('btn-start-race').disabled=false;
+    g('opp-name-game').textContent=opp.name;
+  } else {
+    slot.className='slot waiting';
+    slot.innerHTML=`
+      <div class="slot-cam"><span class="waiting-pulse">⏳</span></div>
+      <div class="slot-nm">Waiting…</div>
+      <div class="slot-st">Share your room code</div>`;
+    if(st.isHost) g('btn-start-race').disabled=true;
+  }
+}
+
+/* ── GAME SETUP ── */
+function buildText(){
+  st.words=st.passage.split(/\s+/).filter(Boolean);
+  g('race-text').innerHTML=st.words.map((w,i)=>`<span class="w pend" id="w${i}">${w}</span>`).join(' ');
+}
+function wc(i,cls){const e=g('w'+i);if(e)e.className='w '+cls;}
+
+function startRaceLocal(){
+  const name=g('p1name').value||'Player 1';
+  g('game-me-name').textContent=name;
+  g('opp-name-game').textContent=st.oppName;
+  if(st.stream&&!st.micOnly){
+    const v=g('game-video');v.srcObject=st.stream;v.style.display='block';
+    g('game-no-cam').style.display='none';
+  }
+  Object.assign(st,{myIndex:0,oppIndex:0,myDone:false,
+    myStart:null,myCorrect:0,myTotal:0,myFinishTime:null});
+  buildText();wc(0,'curr');
+  ['bar-me','bar-opp'].forEach(id=>g(id).style.width='0%');
+  ['me-count','opp-count'].forEach(id=>g(id).textContent='0');
+  ['me-wpm','opp-wpm'].forEach(id=>g(id).textContent='0 WPM');
+  g('race-timer').textContent='0:00';
+  g('hint-me').textContent='🎤 Go! Speak fast!';
+  g('hint-opp').textContent='Racing…';
+  g('mdot').classList.remove('on');
+  startClock();
+  startRecognition();
+}
+
+function updateOppBars(){
+  const tot=st.words.length||1;
+  g('bar-opp').style.width=Math.min(100,Math.round(st.oppIndex/tot*100))+'%';
+  g('opp-count').textContent=st.oppIndex;
+  g('opp-wpm').textContent=st.oppWpm+' WPM';
+}
+function updateMyBars(){
+  const tot=st.words.length||1;
+  g('bar-me').style.width=Math.min(100,Math.round(st.myIndex/tot*100))+'%';
+  g('me-count').textContent=st.myIndex;
+  const now=Date.now();
+  if(st.myStart){
+    const wpm=Math.round(st.myIndex/Math.max((now-st.myStart)/60000,.0001));
+    g('me-wpm').textContent=wpm+' WPM';
+    if(wpm>st.bestWpm) st.bestWpm=wpm;
+    // Emit progress to opponent
+    socket.emit('progress_update',{wordIndex:st.myIndex,wpm});
+  }
+}
+
+/* ── COUNTDOWN ── */
+function showCountdown(onDone){
+  let count=3;
+  const ov=g('cd-overlay'),cn=g('cd-num');
+  ov.style.display='flex';cn.textContent=count;cn.style.color='';
+  cn.style.animation='none';void cn.offsetWidth;cn.style.animation='cdPop .55s cubic-bezier(.34,1.56,.64,1)';
+  const cd=setInterval(()=>{
+    count--;
+    if(count>0){
+      cn.textContent=count;
+      cn.style.animation='none';void cn.offsetWidth;cn.style.animation='cdPop .55s cubic-bezier(.34,1.56,.64,1)';
+    }else{
+      cn.textContent='GO!';cn.style.color='#fff';
+      setTimeout(()=>{ ov.style.display='none';cn.style.color=''; if(onDone)onDone(); },700);
+      clearInterval(cd);
+    }
+  },1000);
+}
+
+/* ── CLOCK ── */
+function startClock(){
+  clearInterval(st.clockTimer);
+  st.clockTimer=setInterval(()=>{
+    if(!st.raceActive)return;
+    const s=Math.floor((Date.now()-st.raceStart)/1000);
+    g('race-timer').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  },200);
+}
+
+/* ── SPEECH ENGINE ── */
+function startRecognition(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Needs Chrome or Edge!',6000);return;}
+  const rec=new SR();
+  st.rec=rec;
+  rec.continuous=true;rec.interimResults=true;rec.lang='en-US';rec.maxAlternatives=1;
+  let cursor=0;
+  rec.onstart=()=>{ cursor=0; g('hint-me').textContent='🎤 Go! Speak fast!'; };
+  rec.onresult=(event)=>{
+    if(!st.raceActive||st.myDone)return;
+    if(!st.myStart)st.myStart=Date.now();
+    let full='';
+    for(let i=0;i<event.results.length;i++) full+=' '+event.results[i][0].transcript;
+    const all=full.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if(all.length>cursor){ const c=matchWords(all.slice(cursor)); cursor+=c; }
+    const last=event.results[event.results.length-1];
+    if(!last.isFinal) g('hint-me').textContent='💬 '+last[0].transcript.trim();
+    else if(st.myIndex<st.words.length) g('hint-me').textContent='→ '+st.words[st.myIndex];
+    g('mdot').classList.add('on');g('rcard-me').classList.add('live');
+  };
+  rec.onspeechend=()=>{ g('mdot').classList.remove('on');g('rcard-me').classList.remove('live'); };
+  rec.onerror=(e)=>{ if(e.error==='no-speech'||e.error==='aborted')return; console.warn(e.error); };
+  rec.onend=()=>{ g('mdot').classList.remove('on'); if(st.raceActive&&!st.myDone){cursor=0;try{rec.start();}catch(e){}} };
+  try{rec.start();}catch(e){console.error(e);}
+}
+
+function matchWords(spoken){
+  let si=0;
+  while(si<spoken.length&&st.myIndex<st.words.length){
+    const said=norm(spoken[si]);
+    if(!said){si++;continue;}
+    const target=norm(st.words[st.myIndex]);
+    if(isMatch(said,target)){
+      wc(st.myIndex,'done');
+      st.myIndex++;st.myCorrect++;st.myTotal++;
+      if(st.myIndex<st.words.length)wc(st.myIndex,'curr');
+      updateMyBars();si++;
+      if(st.myIndex>=st.words.length){finishRace();return si;}
+    }else{
+      if(si+1<spoken.length){const ns=norm(spoken[si+1]);if(ns&&isMatch(ns,target)){si++;continue;}}
+      if(st.myIndex+1<st.words.length){const nt=norm(st.words[st.myIndex+1]);if(isMatch(said,nt)){wc(st.myIndex,'done');st.myIndex++;wc(st.myIndex,'done');st.myIndex++;st.myCorrect+=2;st.myTotal++;if(st.myIndex<st.words.length)wc(st.myIndex,'curr');updateMyBars();si++;if(st.myIndex>=st.words.length){finishRace();return si;}continue;}}
+      const wi=st.myIndex;st.myTotal++;
+      wc(wi,'bad');setTimeout(()=>{if(!st.myDone&&st.myIndex===wi)wc(wi,'curr');},400);
+      updateMyBars();si++;
+    }
+  }
+  return si;
+}
+
+function finishRace(){
+  if(st.myDone)return;
+  st.myDone=true;
+  st.myFinishTime=Date.now();
+  st.raceActive=false;
+  clearInterval(st.clockTimer);
+  if(st.rec){try{st.rec.stop();}catch(e){}}
+
+  const elapsed=((st.myFinishTime-st.raceStart)/1000).toFixed(1);
+  const mins=(st.myFinishTime-(st.myStart||st.raceStart))/60000;
+  const wpm=Math.round(st.myIndex/Math.max(mins,.001));
+  const acc=st.myTotal>0?Math.round(st.myCorrect/st.myTotal*100):100;
+
+  socket.emit('race_finished',{wordIndex:st.myIndex,wpm,accuracy:acc});
+  showResults({winner:'me',myWpm:wpm,myTime:elapsed,myAcc:acc});
+}
+
+function endRaceAborted(){
+  st.raceActive=false;
+  clearInterval(st.clockTimer);
+  if(st.rec){try{st.rec.stop();}catch(e){}}
+}
+
+function showResults({winner,myWpm,myTime,myAcc,oppWpm,oppTime}){
+  setScreen('results');
+  const name=(g('p1name').value||'Player 1').toUpperCase();
+  const elapsed=myTime||((Date.now()-st.raceStart)/1000).toFixed(1);
+  const wpm=myWpm||Math.round(st.myIndex/Math.max((Date.now()-(st.myStart||st.raceStart))/60000,.001));
+  const acc=myAcc!==undefined?myAcc:(st.myTotal>0?Math.round(st.myCorrect/st.myTotal*100):0);
+  const ow=oppWpm||st.oppWpm||'—';
+
+  if(winner==='me'){
+    g('res-ico').textContent='🏆';
+    g('res-title').textContent=name+' WINS';
+    g('res-title').style.color='var(--acid)';
+    g('res-note').textContent='You outran '+st.oppName+'! '+wpm+' WPM.';
+  }else{
+    g('res-ico').textContent='💨';
+    g('res-title').textContent=st.oppName.toUpperCase()+' WINS';
+    g('res-title').style.color='var(--blue)';
+    g('res-note').textContent=st.oppName+' finished first. Race again!';
+  }
+  g('res-wpm').textContent=wpm;
+  g('res-time').textContent=elapsed+'s';
+  g('res-oppwpm').textContent=ow;
+  g('res-acc').textContent=acc+'%';
+}
+
+/* ── EVENTS ── */
+g('btn-enable').addEventListener('click',()=>enableMedia(true));
+g('btn-mic-only').addEventListener('click',()=>enableMedia(false));
+g('btn-create-room').addEventListener('click',createRoom);
+g('btn-join-room').addEventListener('click',showJoinModal);
+g('btn-do-join').addEventListener('click',joinRoomFromModal);
+g('join-code-input').addEventListener('keydown',e=>{if(e.key==='Enter')joinRoomFromModal();});
+g('btn-copy-link').addEventListener('click',copyInviteLink);
+g('btn-new-passage').addEventListener('click',()=>{ if(st.isHost) socket.emit('change_passage'); });
+g('btn-start-race').addEventListener('click',()=>{ if(st.isHost) socket.emit('start_race'); });
+g('btn-give-up').addEventListener('click',()=>{
+  st.raceActive=false;clearInterval(st.clockTimer);
+  if(st.rec){try{st.rec.stop();}catch(e){}}
+  showResults({winner:'opp'});
+});
+g('btn-rematch').addEventListener('click',()=>{ socket.emit('request_rematch'); });
+g('btn-back-lobby').addEventListener('click',()=>{ setScreen('lobby'); });
+g('p1name').addEventListener('input',e=>{ g('lobby-me-name').textContent=e.target.value||'Player 1'; g('game-me-name').textContent=e.target.value||'Player 1'; });
+
+/* ── INIT ── */
+checkSpeechAPI();
+const urlRoom=new URLSearchParams(window.location.search).get('room');
+if(urlRoom){ showLobby(); }
+</script>
+</body>
+</html>
