@@ -12,19 +12,18 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --ink:#080808;--paper:#f5f0e8;--acid:#c8ff00;--hot:#ff2d55;
-  --blue:#40c4ff;--dim:#888;--border:rgba(245,240,232,.09);--r8:8px;--r12:12px;
+  --blue:#40c4ff;--dim:#777;--border:rgba(245,240,232,.09);
 }
 body{background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;min-height:100vh;overflow-x:hidden}
 .screen{display:none}.screen.active{display:block}
 
-/* NAV */
-.nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);z-index:50}
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,.96);backdrop-filter:blur(14px);z-index:50}
 .logo{font-family:'Archivo Black',sans-serif;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acid)}
-.mono{font-family:'Space Mono',monospace}
 
-/* LANDING */
-#land{min-height:100vh;position:relative;overflow:hidden}
-.bg-s{position:absolute;font-family:'Archivo Black',sans-serif;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(200,255,0,.055);user-select:none;pointer-events:none}
+/* ── LANDING ── */
+#land{min-height:100vh;overflow:hidden;position:relative}
+.bg-s{position:absolute;font-family:'Archivo Black',sans-serif;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(200,255,0,.05);user-select:none;pointer-events:none}
 .bg-s1{font-size:clamp(120px,18vw,260px);top:-2%;left:-2%;animation:bd1 14s ease-in-out infinite alternate}
 .bg-s2{font-size:clamp(100px,14vw,200px);bottom:4%;right:-3%;animation:bd2 16s ease-in-out infinite alternate}
 @keyframes bd1{from{transform:rotate(-3deg)}to{transform:rotate(0deg) translate(1%,1%)}}
@@ -33,22 +32,18 @@ body{background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;m
 .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--acid);margin-bottom:1.75rem;animation:fu .6s .1s both}
 .eyebrow::before{content:'';width:22px;height:1px;background:var(--acid)}
 .h1{font-family:'Archivo Black',sans-serif;font-size:clamp(68px,13vw,175px);font-weight:900;line-height:.88;letter-spacing:-.03em;text-transform:uppercase;animation:fu .7s .2s both}
-.h1 .ol{color:transparent;-webkit-text-stroke:2px var(--paper)}
-.h1 .ac{color:var(--acid)}
+.h1 .ol{color:transparent;-webkit-text-stroke:2px var(--paper)}.h1 .ac{color:var(--acid)}
 .hero-lower{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2rem 0 2.5rem;animation:fu .7s .35s both}
-.hero-sub{font-size:clamp(.88rem,1.7vw,1.05rem);color:rgba(245,240,232,.48);max-width:400px;line-height:1.8}
+.hero-sub{font-size:clamp(.88rem,1.7vw,1.05rem);color:rgba(245,240,232,.48);max-width:420px;line-height:1.8}
 .hero-btns{display:flex;gap:.75rem;flex-wrap:wrap;flex-shrink:0}
 @keyframes fu{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .stat-rib{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
-.sc{padding:1.6rem 2.5rem;border-right:1px solid var(--border)}
-.sc:last-child{border-right:none}
+.sc{padding:1.6rem 2.5rem;border-right:1px solid var(--border)}.sc:last-child{border-right:none}
 .sc-n{font-family:'Archivo Black',sans-serif;font-size:2rem;color:var(--acid);line-height:1;margin-bottom:.3rem}
 .sc-l{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;font-family:'Space Mono',monospace}
 .feat-row{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
-.feat{padding:2.5rem;border-right:1px solid var(--border);transition:background .2s}
-.feat:last-child{border-right:none}
-.feat:hover{background:rgba(245,240,232,.02)}
+.feat{padding:2.5rem;border-right:1px solid var(--border);transition:background .2s}.feat:last-child{border-right:none}.feat:hover{background:rgba(245,240,232,.02)}
 .fi{font-size:1.5rem;margin-bottom:1rem;display:block}
 .ft{font-family:'Archivo Black',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
 .fd{font-size:.75rem;color:var(--dim);line-height:1.75}
@@ -56,37 +51,27 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .land-cta h2{font-family:'Archivo Black',sans-serif;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:2.5rem}
 .land-cta h2 em{font-style:normal;color:var(--acid)}
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn-acid{font-family:'Archivo Black',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 2.2rem;border-radius:4px;border:none;cursor:pointer;background:var(--acid);color:var(--ink);box-shadow:0 0 35px rgba(200,255,0,.22);transition:all .17s;display:inline-flex;align-items:center;gap:.4rem}
-.btn-acid:hover{background:#d8ff00;box-shadow:0 0 55px rgba(200,255,0,.4);transform:translateY(-2px)}
-.btn-acid:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-acid:hover{background:#d8ff00;box-shadow:0 0 55px rgba(200,255,0,.4);transform:translateY(-2px)}.btn-acid:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-ghost{font-family:'Archivo Black',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 1.8rem;border-radius:4px;border:1px solid rgba(245,240,232,.2);cursor:pointer;background:transparent;color:var(--paper);transition:all .17s;display:inline-flex;align-items:center;gap:.4rem}
-.btn-ghost:hover{border-color:rgba(245,240,232,.5);transform:translateY(-2px)}
-.btn-ghost:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-ghost:hover{border-color:rgba(245,240,232,.5);transform:translateY(-2px)}.btn-ghost:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .btn-sm{font-family:'Archivo Black',sans-serif;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;padding:.55rem 1.2rem;border-radius:4px;border:none;cursor:pointer;transition:all .14s;display:inline-flex;align-items:center;gap:.35rem}
-.btn-sm-acid{background:var(--acid);color:var(--ink)}
-.btn-sm-acid:hover{background:#d8ff00;transform:translateY(-1px)}
-.btn-sm-acid:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-sm-g{background:rgba(245,240,232,.07);border:1px solid rgba(245,240,232,.12);color:var(--paper)}
-.btn-sm-g:hover{border-color:rgba(245,240,232,.3);transform:translateY(-1px)}
-.btn-sm-g:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-sm-acid{background:var(--acid);color:var(--ink)}.btn-sm-acid:hover{background:#d8ff00;transform:translateY(-1px)}.btn-sm-acid:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-sm-g{background:rgba(245,240,232,.07);border:1px solid rgba(245,240,232,.12);color:var(--paper)}.btn-sm-g:hover{border-color:rgba(245,240,232,.3);transform:translateY(-1px)}.btn-sm-g:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
-/* LOBBY */
-.wrap{max-width:820px;margin:0 auto;padding:2rem 1.5rem}
+/* ── LOBBY ── */
+.wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem}
 .pg-title{font-family:'Archivo Black',sans-serif;font-size:1.75rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.3rem}
 .pg-sub{font-size:.8rem;color:var(--dim);margin-bottom:1.75rem}
-.panel{background:rgba(245,240,232,.025);border:1px solid var(--border);border-radius:var(--r12);padding:1.35rem;margin-bottom:.8rem}
+.panel{background:rgba(245,240,232,.025);border:1px solid var(--border);border-radius:12px;padding:1.35rem;margin-bottom:.8rem}
 .ptag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acid);margin-bottom:.9rem}
-.inp{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(245,240,232,.1);border-radius:var(--r8);padding:.65rem .9rem;color:var(--paper);font-size:.95rem;font-family:'Archivo',sans-serif;margin-bottom:.8rem;transition:border-color .15s}
+.inp{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:.65rem .9rem;color:var(--paper);font-size:.95rem;font-family:'Archivo',sans-serif;margin-bottom:.8rem;transition:border-color .15s}
 .inp:focus{outline:none;border-color:var(--acid)}
 .bdg-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
 .bdg{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);color:var(--dim)}
-.bdg.ok{border-color:rgba(200,255,0,.4);color:var(--acid)}
-.bdg.err{border-color:rgba(255,45,85,.35);color:var(--hot)}
-.bdg.warn{border-color:rgba(255,170,0,.3);color:orange}
+.bdg.ok{border-color:rgba(200,255,0,.4);color:var(--acid)}.bdg.err{border-color:rgba(255,45,85,.35);color:var(--hot)}.bdg.warn{border-color:rgba(255,170,0,.3);color:orange}
 .brow{display:flex;gap:.6rem;flex-wrap:wrap}
-
-/* MIC METER */
 .mic-meter{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:none}
 .meter-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);margin-bottom:.5rem}
 .meter-track{background:rgba(245,240,232,.06);border-radius:999px;height:10px;overflow:hidden;margin-bottom:.4rem}
@@ -95,58 +80,61 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 .sr-test{padding-top:.85rem;border-top:1px solid var(--border);display:none}
 .sr-test-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);margin-bottom:.4rem}
 .sr-test-out{font-size:.82rem;color:var(--dim);min-height:1.4rem;font-style:italic}
-
-/* ROOM CODE */
-.room-code-box{background:rgba(200,255,0,.05);border:1px solid rgba(200,255,0,.2);border-radius:var(--r12);padding:1.5rem;text-align:center;margin-bottom:.8rem}
+.room-code-box{background:rgba(200,255,0,.05);border:1px solid rgba(200,255,0,.2);border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:.8rem}
 .rc-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acid);margin-bottom:.5rem}
 .rc-code{font-family:'Archivo Black',sans-serif;font-size:3rem;letter-spacing:.3em;color:var(--acid);line-height:1;margin-bottom:.65rem}
 .rc-hint{font-size:.75rem;color:rgba(245,240,232,.4);line-height:1.6;margin-bottom:.85rem}
-
-/* SLOTS */
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.slot{border:1px solid var(--border);border-radius:var(--r12);padding:.85rem;text-align:center;transition:all .3s}
-.slot.ready{border-color:rgba(200,255,0,.3);background:rgba(200,255,0,.015)}
-.slot.waiting{border-style:dashed}
-.slot-cam{width:100%;aspect-ratio:16/9;border-radius:var(--r8);background:#060606;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:.65rem}
+.slot{border:1px solid var(--border);border-radius:12px;padding:.85rem;text-align:center;transition:all .3s}
+.slot.ready{border-color:rgba(200,255,0,.3);background:rgba(200,255,0,.015)}.slot.waiting{border-style:dashed}
+.slot-cam{width:100%;aspect-ratio:16/9;border-radius:8px;background:#060606;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:.65rem}
 .slot-cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .slot-nm{font-family:'Archivo Black',sans-serif;font-size:.88rem;text-transform:uppercase;letter-spacing:.05em}
-.slot-st{font-size:.65rem;color:var(--dim);margin-top:.2rem}
-.slot-st.ok{color:var(--acid)}
+.slot-st{font-size:.65rem;color:var(--dim);margin-top:.2rem}.slot-st.ok{color:var(--acid)}
 .pulse{animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-
-/* PASSAGE */
 .passage-row{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
 .passage-txt{font-size:.82rem;color:var(--dim);line-height:1.65;flex:1;min-width:180px}
-.passage-btns{display:flex;gap:.5rem;flex-shrink:0}
 
-/* GAME */
-.game-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,.95);backdrop-filter:blur(12px);z-index:50}
+/* ── GAME ── */
+#game{background:var(--ink)}
+.game-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(8,8,8,.96);backdrop-filter:blur(14px);position:sticky;top:0;z-index:50}
 .gclock{font-family:'Space Mono',monospace;font-size:1.5rem;color:var(--acid);letter-spacing:.1em}
-.racers{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.9rem}
-.rcard{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:.9rem;transition:border-color .2s,box-shadow .2s}
-.rcard.live{border-color:rgba(200,255,0,.4);box-shadow:0 0 20px rgba(200,255,0,.06)}
-.rcard-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem}
-.rcard-vid{width:64px;height:48px;border-radius:var(--r8);background:#060606;overflow:hidden;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
-.rcard-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ri{flex:1;min-width:0}
-.rn{font-family:'Archivo Black',sans-serif;font-size:.88rem;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:.35rem}
-.rw{font-size:.62rem;color:var(--dim);margin-top:.1rem;font-family:'Space Mono',monospace}
-.rct{font-family:'Archivo Black',sans-serif;font-size:1.5rem;color:var(--acid);flex-shrink:0}
-.rct.opp{color:var(--blue)}
-.pt{background:rgba(245,240,232,.05);border-radius:999px;height:5px;overflow:hidden;margin-bottom:.3rem}
-.pf{height:100%;border-radius:999px;background:var(--acid);transition:width .18s}
-.pf.opp{background:var(--blue)}
-.hint{font-size:.65rem;color:var(--dim);font-style:italic;font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:.85rem}
-.mdot{width:8px;height:8px;border-radius:50%;background:var(--hot);flex-shrink:0;transition:all .15s}
+
+/* BIG CAMERA LAYOUT */
+.game-cameras{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  height:38vh;min-height:240px;max-height:360px;
+  border-bottom:3px solid var(--ink);
+}
+.cam-panel{position:relative;overflow:hidden;background:#060606}
+.cam-panel video{width:100%;height:100%;object-fit:cover;display:block}
+.cam-panel .cam-no-vid{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4rem;background:#0a0a0a}
+.cam-label{position:absolute;bottom:0;left:0;right:0;padding:.6rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,.8));display:flex;align-items:flex-end;justify-content:space-between}
+.cam-name{font-family:'Archivo Black',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em}
+.cam-wpm{font-family:'Space Mono',monospace;font-size:.7rem;color:rgba(245,240,232,.6)}
+.cam-divider{width:3px;background:var(--ink)}
+
+/* PROGRESS BARS BELOW CAMERAS */
+.progress-section{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--border)}
+.prog-side{padding:.75rem 1.25rem;border-right:1px solid var(--border)}
+.prog-side:last-child{border-right:none}
+.prog-track{background:rgba(245,240,232,.06);border-radius:999px;height:6px;overflow:hidden;margin-bottom:.3rem}
+.prog-fill{height:100%;border-radius:999px;background:var(--acid);transition:width .2s}
+.prog-fill.opp{background:var(--blue)}
+.prog-info{display:flex;justify-content:space-between;align-items:center}
+.prog-words{font-family:'Archivo Black',sans-serif;font-size:.75rem;color:var(--acid)}
+.prog-words.opp{color:var(--blue)}
+.prog-hint{font-size:.65rem;color:var(--dim);font-family:'Space Mono',monospace;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.mdot{width:8px;height:8px;border-radius:50%;background:var(--hot);display:inline-block;margin-right:.4rem;transition:all .15s;vertical-align:middle}
 .mdot.on{background:var(--acid);box-shadow:0 0 8px rgba(200,255,0,.8)}
-.race-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:1.6rem;margin-bottom:.8rem;font-family:'Archivo',sans-serif;font-size:1.18rem;line-height:2.1}
-.w{padding:1px 3px;border-radius:3px;transition:all .07s}
-.w.done{color:var(--acid)}
-.w.curr{background:rgba(200,255,0,.13);color:#d8ff00;font-weight:600;text-shadow:0 0 10px rgba(200,255,0,.3)}
-.w.bad{background:rgba(255,45,85,.18);color:var(--hot)}
-.w.pend{color:rgba(245,240,232,.27)}
-.gctrl{display:flex;justify-content:center;gap:.65rem;margin-top:.5rem}
+
+/* RACE TEXT */
+.race-wrap{max-width:860px;margin:0 auto;padding:1.25rem 1.5rem}
+.race-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin-bottom:.8rem;font-family:'Archivo',sans-serif;font-size:1.1rem;line-height:2.2;letter-spacing:.01em}
+.w{padding:2px 3px;border-radius:3px;transition:all .07s}
+.w.done{color:var(--acid)}.w.curr{background:rgba(200,255,0,.14);color:#d8ff00;font-weight:600;text-shadow:0 0 10px rgba(200,255,0,.3)}.w.bad{background:rgba(255,45,85,.18);color:var(--hot)}.w.pend{color:rgba(245,240,232,.27)}
+.gctrl{display:flex;justify-content:center;gap:.65rem;margin-top:.25rem}
 
 /* COUNTDOWN */
 #cdov{position:fixed;inset:0;background:rgba(8,8,8,.93);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:999}
@@ -155,33 +143,33 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 @keyframes cdp{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* RESULTS */
-.res-wrap{max-width:660px;margin:0 auto;padding:3rem 1.5rem}
+.res-wrap{max-width:700px;margin:0 auto;padding:3rem 1.5rem}
 .res-center{text-align:center;margin-bottom:2.5rem}
 .res-ico{font-size:3.5rem;display:block;margin-bottom:1rem;animation:bnc .6s cubic-bezier(.34,1.56,.64,1)}
 @keyframes bnc{from{transform:scale(0) rotate(-15deg)}to{transform:scale(1) rotate(0)}}
 .res-title{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,6.5vw,4rem);text-transform:uppercase;letter-spacing:-.01em;line-height:.92}
-.res-note{font-size:.82rem;color:var(--dim);margin-top:.65rem}
+.res-note{font-size:.85rem;color:var(--dim);margin-top:.65rem;line-height:1.6}
 .res-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.75rem}
-.res-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:var(--r12);padding:1rem .65rem;text-align:center}
+.res-box{background:rgba(245,240,232,.02);border:1px solid var(--border);border-radius:12px;padding:1rem .65rem;text-align:center}
 .res-v{font-family:'Archivo Black',sans-serif;font-size:1.85rem;letter-spacing:.02em;color:var(--acid);line-height:1;margin-bottom:.3rem}
-.res-v.b{color:var(--blue)}
-.res-lbl{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-family:'Space Mono',monospace}
+.res-v.b{color:var(--blue)}.res-lbl{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-family:'Space Mono',monospace}
 .res-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
 
 /* TOAST */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#141414;border:1px solid rgba(245,240,232,.1);border-radius:var(--r8);padding:.65rem .95rem;font-size:.73rem;z-index:10000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:300px;font-family:'Space Mono',monospace;line-height:1.5}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#141414;border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:.65rem .95rem;font-size:.73rem;z-index:10000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:300px;font-family:'Space Mono',monospace;line-height:1.5}
 .toast.show{opacity:1}
 
 /* JOIN MODAL */
 #jmod{position:fixed;inset:0;background:rgba(8,8,8,.9);display:none;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(6px)}
-.mbox{background:#111;border:1px solid var(--border);border-radius:var(--r12);padding:2rem;max-width:380px;width:90%}
+.mbox{background:#111;border:1px solid var(--border);border-radius:12px;padding:2rem;max-width:380px;width:90%}
 .mtitle{font-family:'Archivo Black',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.25rem}
-.minp{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(245,240,232,.12);border-radius:var(--r8);padding:.65rem .9rem;color:var(--paper);font-size:1.1rem;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.15em;margin-bottom:.75rem}
+.minp{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(245,240,232,.12);border-radius:8px;padding:.65rem .9rem;color:var(--paper);font-size:1.1rem;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.15em;margin-bottom:.75rem}
 .minp:focus{outline:none;border-color:var(--acid)}
 
 @media(max-width:680px){
   .feat-row,.stat-rib{grid-template-columns:1fr 1fr}
-  .slots,.racers,.res-stats{grid-template-columns:1fr}
+  .slots,.res-stats{grid-template-columns:1fr}
+  .game-cameras{height:30vh;min-height:180px}
   .h1{font-size:clamp(52px,15vw,80px)}
 }
 </style>
@@ -190,17 +178,16 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 
 <!-- ═══ LANDING ═══ -->
 <div class="screen active" id="land">
-  <span class="bg-s bg-s1">FAST</span>
-  <span class="bg-s bg-s2">TALK</span>
+  <span class="bg-s bg-s1">FAST</span><span class="bg-s bg-s2">TALK</span>
   <nav class="nav">
     <div class="logo">SpeakRacer</div>
-    <div class="bdg mono" style="font-size:.6rem;padding:.28rem .7rem;border-radius:999px;border:1px solid var(--border);color:var(--dim)">Chrome / Edge Only</div>
+    <div class="bdg" style="font-size:.6rem;padding:.28rem .7rem;border-radius:999px;font-family:'Space Mono',monospace">Chrome / Edge Only</div>
   </nav>
   <div class="hero">
     <div class="eyebrow">Multiplayer Voice Racing</div>
     <h1 class="h1"><span>Talk</span><br><span class="ac">Fast.</span><br><span class="ol">Win.</span></h1>
     <div class="hero-lower">
-      <p class="hero-sub">Real-time speech recognition turns your voice into a race. Challenge a friend with a shareable link. First to say every word wins.</p>
+      <p class="hero-sub">Real-time AI speech recognition turns your voice into a race. Challenge a friend with a shareable link. Both players speak the same passage — first to finish wins.</p>
       <div class="hero-btns">
         <button class="btn-acid" onclick="goLobby()">▶ Play Now</button>
         <button class="btn-ghost" onclick="openJoinModal()">Join Room</button>
@@ -210,14 +197,14 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
   <hr class="rule">
   <div class="stat-rib">
     <div class="sc"><div class="sc-n">2</div><div class="sc-l">Players</div></div>
-    <div class="sc"><div class="sc-n">Live</div><div class="sc-l">Real-Time</div></div>
+    <div class="sc"><div class="sc-n">Live</div><div class="sc-l">Face to Face</div></div>
     <div class="sc"><div class="sc-n">∞</div><div class="sc-l">Passages</div></div>
     <div class="sc"><div class="sc-n">AI</div><div class="sc-l">Recognition</div></div>
   </div>
   <div class="feat-row">
-    <div class="feat"><span class="fi">🔗</span><div class="ft">Instant Rooms</div><div class="fd">Create a room and share the 6-character code or link. Friend joins in one click. No account needed.</div></div>
-    <div class="feat"><span class="fi">⚡</span><div class="ft">Live Recognition</div><div class="fd">Every word lights up instantly as you say it. Both players see each other's progress in real time via WebSockets.</div></div>
-    <div class="feat"><span class="fi">📷</span><div class="ft">Face-to-Face</div><div class="fd">Camera feeds show both racers live. Watch your friend's expression as you leave them behind.</div></div>
+    <div class="feat"><span class="fi">🔗</span><div class="ft">Instant Rooms</div><div class="fd">Create a room, share the 6-character code or link. Your friend joins in one click. No accounts, no downloads.</div></div>
+    <div class="feat"><span class="fi">📷</span><div class="ft">Live Video</div><div class="fd">WebRTC peer-to-peer video shows both players face-to-face in full view. Watch your opponent panic as you pull ahead.</div></div>
+    <div class="feat"><span class="fi">⚡</span><div class="ft">Word by Word</div><div class="fd">Every word lights up green the instant you say it. Passages are long and challenging — speed and clarity both matter.</div></div>
   </div>
   <div class="land-cta">
     <h2>Your voice.<br><em>Their loss.</em></h2>
@@ -230,13 +217,12 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
   <nav class="nav">
     <button class="btn-ghost" style="padding:.4rem .9rem;font-size:.72rem" onclick="goScreen('land')">← Back</button>
     <div class="logo">SpeakRacer</div>
-    <span class="bdg mono" id="sr-badge" style="font-size:.6rem">Checking…</span>
+    <span class="bdg" id="sr-badge" style="font-size:.6rem;font-family:'Space Mono',monospace">Checking…</span>
   </nav>
   <div class="wrap">
     <div class="pg-title">Race Lobby</div>
     <div class="pg-sub">Enable your mic, create or join a room, then race.</div>
 
-    <!-- SETUP -->
     <div class="panel">
       <div class="ptag">Your Setup</div>
       <input class="inp" id="pname" placeholder="Your name…" maxlength="20" value="Player 1">
@@ -248,7 +234,6 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
         <button class="btn-sm btn-sm-acid" id="btn-cam-mic">Enable Camera &amp; Mic</button>
         <button class="btn-sm btn-sm-g" id="btn-mic-only">Mic Only</button>
       </div>
-      <!-- MIC METER -->
       <div class="mic-meter" id="mic-meter">
         <div class="meter-label">Mic Level</div>
         <div class="meter-track"><div class="meter-fill" id="meter-fill"></div></div>
@@ -260,7 +245,6 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       </div>
     </div>
 
-    <!-- ROOM ACTIONS -->
     <div class="panel" id="room-actions">
       <div class="ptag">Room</div>
       <div class="brow">
@@ -269,17 +253,15 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       </div>
     </div>
 
-    <!-- ROOM CODE (host only, after create) -->
     <div id="room-code-section" style="display:none">
       <div class="room-code-box">
         <div class="rc-label">Your Room Code</div>
         <div class="rc-code" id="rc-display">———</div>
-        <div class="rc-hint">Share this with your friend, or send them the invite link.</div>
+        <div class="rc-hint">Share this code with your friend, or send them the invite link below.</div>
         <button class="btn-sm btn-sm-g" id="btn-copy">📋 Copy Invite Link</button>
       </div>
     </div>
 
-    <!-- PLAYERS (after joining) -->
     <div class="panel" id="players-panel" style="display:none">
       <div class="ptag">Players</div>
       <div class="slots">
@@ -299,12 +281,11 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       </div>
     </div>
 
-    <!-- PASSAGE (after joining) -->
     <div class="panel" id="passage-panel" style="display:none">
       <div class="ptag">Passage</div>
       <div class="passage-row">
         <div class="passage-txt" id="passage-txt"></div>
-        <div class="passage-btns">
+        <div style="display:flex;gap:.5rem;flex-shrink:0">
           <button class="btn-sm btn-sm-g" id="btn-shuffle" style="display:none">🔀 New</button>
           <button class="btn-sm btn-sm-acid" id="btn-start" disabled>🏁 Start</button>
         </div>
@@ -312,9 +293,7 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
       <div style="font-size:.68rem;color:var(--dim);margin-top:.65rem" id="host-hint"></div>
     </div>
 
-    <p style="font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:.25rem">
-      ⚠️ <strong style="color:rgba(245,240,232,.5)">Chrome or Edge only.</strong> Safari does not support the Web Speech API. Make sure to allow mic access when prompted.
-    </p>
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:.25rem">⚠️ <strong style="color:rgba(245,240,232,.5)">Chrome or Edge only.</strong> Safari does not support the Web Speech API. For best results, use two different browsers or devices when testing multiplayer.</p>
   </div>
 </div>
 
@@ -323,38 +302,49 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
   <nav class="game-nav">
     <div class="logo" style="font-size:.9rem">SpeakRacer</div>
     <div class="gclock" id="gtimer">0:00</div>
-    <div class="mono" style="font-size:.58rem;color:var(--dim);letter-spacing:.12em">LIVE</div>
+    <div style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.12em">LIVE</div>
   </nav>
-  <div class="wrap" style="padding-top:1.2rem">
-    <div class="racers">
-      <div class="rcard" id="rcard-me">
-        <div class="rcard-row">
-          <div class="rcard-vid">
-            <span id="game-nocam">🙂</span>
-            <video id="game-vid" autoplay muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
-          </div>
-          <div class="ri">
-            <div class="rn"><span class="mdot" id="mdot"></span><span id="game-me-name">You</span></div>
-            <div class="rw" id="me-wpm">0 WPM</div>
-          </div>
-          <div class="rct" id="me-ct">0</div>
-        </div>
-        <div class="pt"><div class="pf" id="bar-me" style="width:0%"></div></div>
-        <div class="hint" id="hint-me">…</div>
-      </div>
-      <div class="rcard" id="rcard-opp">
-        <div class="rcard-row">
-          <div class="rcard-vid" style="font-size:1.4rem">👤</div>
-          <div class="ri">
-            <div class="rn" style="color:var(--blue)" id="opp-name-game">Opponent</div>
-            <div class="rw" id="opp-wpm">0 WPM</div>
-          </div>
-          <div class="rct opp" id="opp-ct">0</div>
-        </div>
-        <div class="pt"><div class="pf opp" id="bar-opp" style="width:0%"></div></div>
-        <div class="hint" id="hint-opp">Waiting…</div>
+
+  <!-- BIG CAMERAS -->
+  <div class="game-cameras">
+    <div class="cam-panel" id="cam-me">
+      <div class="cam-no-vid" id="cam-me-placeholder">🙂</div>
+      <video id="game-vid-me" autoplay muted playsinline style="display:none"></video>
+      <div class="cam-label">
+        <span class="cam-name" id="cam-me-name">You</span>
+        <span class="cam-wpm" id="cam-me-wpm">0 WPM</span>
       </div>
     </div>
+    <div class="cam-panel" id="cam-opp" style="border-left:3px solid var(--ink)">
+      <div class="cam-no-vid" id="cam-opp-placeholder">👤</div>
+      <video id="game-vid-opp" autoplay playsinline style="display:none"></video>
+      <div class="cam-label">
+        <span class="cam-name" id="cam-opp-name" style="color:var(--blue)">Opponent</span>
+        <span class="cam-wpm" id="cam-opp-wpm">0 WPM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BARS -->
+  <div class="progress-section">
+    <div class="prog-side">
+      <div class="prog-track"><div class="prog-fill" id="bar-me" style="width:0%"></div></div>
+      <div class="prog-info">
+        <span class="prog-words" id="me-words"><span class="mdot" id="mdot"></span>0 words</span>
+        <span class="prog-hint" id="hint-me">…</span>
+      </div>
+    </div>
+    <div class="prog-side">
+      <div class="prog-track"><div class="prog-fill opp" id="bar-opp" style="width:0%"></div></div>
+      <div class="prog-info">
+        <span class="prog-words opp" id="opp-words">0 words</span>
+        <span class="prog-hint" id="hint-opp">Waiting…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RACE TEXT -->
+  <div class="race-wrap">
     <div class="race-box" id="race-text"></div>
     <div class="gctrl">
       <button class="btn-sm btn-sm-g" id="btn-giveup">🏳 Give Up</button>
@@ -384,13 +374,8 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
   </div>
 </div>
 
-<!-- countdown -->
-<div id="cdov">
-  <div class="cdn" id="cdn">3</div>
-  <div class="cdh">Speak as fast as you can</div>
-</div>
+<div id="cdov"><div class="cdn" id="cdn">3</div><div class="cdh">Speak as fast as you can</div></div>
 
-<!-- join modal -->
 <div id="jmod">
   <div class="mbox">
     <div class="mtitle">Join a Room</div>
@@ -406,26 +391,36 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:0 2.5rem}
 
 <script>
 // ─────────────────────────────────────────
-// SOCKET
+// SOCKET + WEBRTC
 // ─────────────────────────────────────────
 const socket = io();
+
+// WebRTC config — using free public STUN servers
+const RTC_CONFIG = {
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' },
+  ]
+};
+
+let peerConn = null;
 
 // ─────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────
 const S = {
-  myId: null, roomId: null, isHost: false,
-  passage: '', words: [],
-  myIdx: 0, oppIdx: 0,
-  myDone: false, raceActive: false,
-  stream: null, micOnly: false,
-  rec: null, testRec: null,
-  meterRaf: null, meterCtx: null,
-  clockTimer: null, botTimer: null,
-  raceStart: null, myStart: null,
-  myCorrect: 0, myTotal: 0,
-  oppName: 'Opponent', oppWpm: 0,
-  bestWpm: 0,
+  myId:null, roomId:null, isHost:false,
+  passage:'', words:[],
+  myIdx:0, oppIdx:0,
+  myDone:false, raceActive:false,
+  stream:null, micOnly:false,
+  recMode:'off', recCursor:0, masterRec:null,
+  meterRaf:null, meterCtx:null,
+  clockTimer:null,
+  raceStart:null, myStart:null,
+  myCorrect:0, myTotal:0,
+  oppName:'Opponent', oppWpm:0,
 };
 
 // ─────────────────────────────────────────
@@ -434,11 +429,8 @@ const S = {
 const el = id => document.getElementById(id);
 
 function toast(msg, dur=4500) {
-  const t = el('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), dur);
+  const t = el('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), dur);
 }
 
 function goScreen(id) {
@@ -447,32 +439,30 @@ function goScreen(id) {
 }
 
 function goLobby() {
-  goScreen('lobby');
-  checkSR();
-  const urlRoom = new URLSearchParams(window.location.search).get('room');
-  if (urlRoom) autoJoin(urlRoom);
+  goScreen('lobby'); checkSR();
+  const r = new URLSearchParams(window.location.search).get('room');
+  if (r) setTimeout(() => autoJoin(r), 300);
 }
 
-function norm(w) { return w.toLowerCase().replace(/[^a-z0-9']/g, ''); }
+function norm(w) { return w.toLowerCase().replace(/[^a-z0-9']/g,''); }
 
-function lev(a, b) {
-  if (a === b) return 0;
-  if (Math.abs(a.length - b.length) > 3) return 99;
-  const m = a.length, n = b.length;
-  const dp = Array.from({length: m+1}, (_, i) => Array.from({length: n+1}, (_, j) => j === 0 ? i : 0));
-  for (let j = 0; j <= n; j++) dp[0][j] = j;
-  for (let i = 1; i <= m; i++)
-    for (let j = 1; j <= n; j++)
-      dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+function lev(a,b) {
+  if(a===b) return 0;
+  if(Math.abs(a.length-b.length)>3) return 99;
+  const m=a.length, n=b.length;
+  const dp = Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>j===0?i:0));
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
   return dp[m][n];
 }
 
 function isMatch(said, target) {
-  if (!said || !target) return false;
-  if (said === target) return true;
-  if (target.length > 3 && said.length >= 3 && target.startsWith(said)) return true;
-  if (said.length >= 3 && target.length >= 5 && lev(said, target) <= 1) return true;
-  if (said.length >= 4 && target.length >= 8 && lev(said, target) <= 2) return true;
+  if(!said||!target) return false;
+  if(said===target) return true;
+  if(target.length>3&&said.length>=3&&target.startsWith(said)) return true;
+  if(said.length>=3&&target.length>=5&&lev(said,target)<=1) return true;
+  if(said.length>=4&&target.length>=8&&lev(said,target)<=2) return true;
   return false;
 }
 
@@ -480,480 +470,462 @@ function isMatch(said, target) {
 // SPEECH API CHECK
 // ─────────────────────────────────────────
 function checkSR() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
   const b = el('sr-badge');
-  if (SR) { b.textContent = '🗣 Speech: OK'; b.className = 'bdg ok mono'; }
-  else    { b.textContent = '🗣 Not supported — use Chrome/Edge'; b.className = 'bdg err mono'; }
+  if(SR){b.textContent='🗣 Speech: OK';b.className='bdg ok';}
+  else{b.textContent='🗣 Not supported — use Chrome/Edge';b.className='bdg err';}
 }
 
 // ─────────────────────────────────────────
-// ENABLE MIC/CAMERA
+// ENABLE MIC / CAMERA
 // ─────────────────────────────────────────
 async function enableMedia(withVideo) {
-  el('mic-bdg').textContent = '🎤 Requesting…';
-  el('cam-bdg').textContent = withVideo ? '📷 Requesting…' : '📷 Camera: off';
-
-  let stream = null;
-
-  // Try the requested constraints, fall back gracefully
+  el('mic-bdg').textContent='🎤 Requesting…';
   const attempts = withVideo
-    ? [
-        { audio: true, video: { facingMode: 'user' } },
-        { audio: true, video: true },
-        { audio: true, video: false },
-      ]
-    : [
-        { audio: true, video: false },
-      ];
+    ? [{audio:true,video:{facingMode:'user'}},{audio:true,video:true},{audio:true,video:false}]
+    : [{audio:true,video:false}];
 
-  let lastErr = null;
-  for (const constraints of attempts) {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia(constraints);
-      break;
-    } catch (e) {
-      lastErr = e;
-      console.warn('getUserMedia failed with', JSON.stringify(constraints), e.name, e.message);
-    }
+  let stream=null, lastErr=null;
+  for(const c of attempts){
+    try{ stream=await navigator.mediaDevices.getUserMedia(c); break; }
+    catch(e){ lastErr=e; console.warn('getUserMedia fail:',JSON.stringify(c),e.name); }
   }
 
-  if (!stream) {
-    // All attempts failed
-    const n = lastErr ? lastErr.name : 'Unknown';
-    if (n === 'NotAllowedError' || n === 'PermissionDeniedError') {
-      toast('❌ Mic blocked. Click the 🔒 lock icon in the address bar → set Microphone to Allow → refresh.', 9000);
-      el('mic-bdg').textContent = '🎤 Blocked — allow in browser'; el('mic-bdg').className = 'bdg err';
-    } else if (n === 'NotFoundError') {
-      toast('❌ No microphone found. Plug in a mic or headset and try again.', 6000);
-      el('mic-bdg').textContent = '🎤 Not found'; el('mic-bdg').className = 'bdg err';
+  if(!stream){
+    const n=lastErr?lastErr.name:'Unknown';
+    if(n==='NotAllowedError'||n==='PermissionDeniedError'){
+      toast('❌ Mic blocked. Click the 🔒 lock in your address bar → set Microphone to Allow → refresh.',9000);
+      el('mic-bdg').textContent='🎤 Blocked';el('mic-bdg').className='bdg err';
     } else {
-      toast('❌ Mic error: ' + n, 6000);
-      el('mic-bdg').textContent = '🎤 Error: ' + n; el('mic-bdg').className = 'bdg err';
+      toast('❌ Mic error: '+n,6000);
+      el('mic-bdg').textContent='🎤 Error';el('mic-bdg').className='bdg err';
     }
-    el('cam-bdg').textContent = '📷 Camera: off'; el('cam-bdg').className = 'bdg';
     return;
   }
 
-  S.stream = stream;
-  const hasVideo = stream.getVideoTracks().length > 0;
-  const hasAudio = stream.getAudioTracks().length > 0;
-  S.micOnly = !hasVideo;
+  S.stream=stream;
+  const hasVideo=stream.getVideoTracks().length>0;
+  S.micOnly=!hasVideo;
 
-  if (hasVideo) {
-    const lv = el('lobby-vid'); lv.srcObject = stream; lv.style.display = 'block';
-    el('lobby-nocam').style.display = 'none';
-    el('cam-bdg').textContent = '📷 Camera: on'; el('cam-bdg').className = 'bdg ok';
+  if(hasVideo){
+    const lv=el('lobby-vid'); lv.srcObject=stream; lv.style.display='block';
+    el('lobby-nocam').style.display='none';
+    el('cam-bdg').textContent='📷 Camera: on';el('cam-bdg').className='bdg ok';
   } else {
-    el('cam-bdg').textContent = '📷 Camera: off'; el('cam-bdg').className = 'bdg warn';
+    el('cam-bdg').textContent='📷 Camera: off';el('cam-bdg').className='bdg warn';
   }
 
-  if (hasAudio) {
-    el('mic-bdg').textContent = '🎤 Mic: active'; el('mic-bdg').className = 'bdg ok';
-    toast(hasVideo ? '✅ Camera & mic enabled!' : '✅ Mic enabled!');
-    startMicMeter(stream);
-    startSRTest();
-  } else {
-    el('mic-bdg').textContent = '🎤 Mic: no signal'; el('mic-bdg').className = 'bdg err';
-    toast('⚠️ No mic audio signal. Check your microphone.', 5000);
-  }
+  el('mic-bdg').textContent='🎤 Mic: active';el('mic-bdg').className='bdg ok';
+  toast(hasVideo?'✅ Camera & mic enabled!':'✅ Mic enabled!');
+  startMicMeter(stream);
+  startSRTest();
 }
 
 // ─────────────────────────────────────────
-// MIC METER (AudioContext volume visualiser)
+// MIC METER
 // ─────────────────────────────────────────
 function startMicMeter(stream) {
-  el('mic-meter').style.display = 'block';
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) { el('meter-txt').textContent = 'AudioContext not supported'; return; }
-    S.meterCtx = new AC();
-    const src = S.meterCtx.createMediaStreamSource(stream);
-    const analyser = S.meterCtx.createAnalyser();
-    analyser.fftSize = 512;
+  el('mic-meter').style.display='block';
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    S.meterCtx=new AC();
+    const src=S.meterCtx.createMediaStreamSource(stream);
+    const analyser=S.meterCtx.createAnalyser(); analyser.fftSize=512;
     src.connect(analyser);
-    const buf = new Uint8Array(analyser.frequencyBinCount);
-    let silentFrames = 0;
-    function tick() {
-      S.meterRaf = requestAnimationFrame(tick);
+    const buf=new Uint8Array(analyser.frequencyBinCount);
+    let silent=0;
+    function tick(){
+      S.meterRaf=requestAnimationFrame(tick);
       analyser.getByteFrequencyData(buf);
-      const avg = buf.reduce((a, b) => a + b, 0) / buf.length;
-      const pct = Math.min(100, Math.round(avg * 4));
-      el('meter-fill').style.width = pct + '%';
-      if (pct > 4) {
-        silentFrames = 0;
-        el('meter-fill').style.background = pct > 45 ? 'linear-gradient(90deg,#c8ff00,#00ff88)' : 'linear-gradient(90deg,#c8ff00,#7fff00)';
-        el('meter-txt').textContent = pct > 55 ? '🔊 Strong signal — great!' : '✅ Mic is working!';
-        el('meter-txt').style.color = 'var(--acid)';
+      const avg=buf.reduce((a,b)=>a+b,0)/buf.length;
+      const pct=Math.min(100,Math.round(avg*4));
+      el('meter-fill').style.width=pct+'%';
+      if(pct>4){
+        silent=0;
+        el('meter-fill').style.background=pct>45?'linear-gradient(90deg,#c8ff00,#00ff88)':'linear-gradient(90deg,#c8ff00,#7fff00)';
+        el('meter-txt').textContent=pct>55?'🔊 Strong signal!':'✅ Mic working!';
+        el('meter-txt').style.color='var(--acid)';
       } else {
-        silentFrames++;
-        if (silentFrames > 90) { el('meter-txt').textContent = 'No signal detected — speak into your mic'; el('meter-txt').style.color = 'var(--dim)'; }
+        silent++;
+        if(silent>90){el('meter-txt').textContent='No signal — speak or check mic settings';el('meter-txt').style.color='var(--dim)';}
       }
     }
     tick();
-  } catch(e) { console.warn('Meter error:', e); }
+  }catch(e){console.warn('Meter:',e);}
 }
 
-function stopMicMeter() {
-  if (S.meterRaf) cancelAnimationFrame(S.meterRaf);
-  if (S.meterCtx) { try { S.meterCtx.close(); } catch(e){} S.meterCtx = null; }
+function stopMicMeter(){
+  if(S.meterRaf) cancelAnimationFrame(S.meterRaf);
+  if(S.meterCtx){try{S.meterCtx.close();}catch(e){}S.meterCtx=null;}
 }
 
 // ─────────────────────────────────────────
 // UNIFIED SPEECH RECOGNIZER
-// One recognizer runs from lobby through race.
-// S.recMode = 'test' | 'race' | 'off'
-// Never stopped/restarted between modes — just switches mode.
+// One recognizer, two modes: 'test' and 'race'
+// Never stopped between modes to avoid Chrome mic lock
 // ─────────────────────────────────────────
-S.recMode = 'off';
-S.recCursor = 0;
-S.masterRec = null;
-
 function startSRTest() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  el('sr-test').style.display = 'block';
-  if (!SR) {
-    el('sr-out').textContent = '❌ Not supported — use Chrome or Edge!';
-    el('sr-out').style.color = 'var(--hot)';
-    return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  el('sr-test').style.display='block';
+  if(!SR){
+    el('sr-out').textContent='❌ Not supported — use Chrome or Edge!';
+    el('sr-out').style.color='var(--hot)'; return;
+  }
+  if(S.masterRec){ S.recMode='test'; S.recCursor=0; return; }
+
+  const rec=new SR();
+  S.masterRec=rec;
+  rec.continuous=true; rec.interimResults=true; rec.lang='en-US'; rec.maxAlternatives=1;
+
+  rec.onresult=(event)=>{
+    if(S.recMode==='test'){
+      let txt='';
+      for(let i=0;i<event.results.length;i++) txt+=event.results[i][0].transcript;
+      el('sr-out').textContent='✅ Heard: "'+txt.trim()+'"';
+      el('sr-out').style.color='var(--acid)';
+    } else if(S.recMode==='race'){
+      if(!S.raceActive||S.myDone) return;
+      if(!S.myStart) S.myStart=Date.now();
+      let full='';
+      for(let i=0;i<event.results.length;i++) full+=' '+event.results[i][0].transcript;
+      const allWords=full.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      if(allWords.length>S.recCursor){
+        S.recCursor+=matchWords(allWords.slice(S.recCursor));
+      }
+      const last=event.results[event.results.length-1];
+      if(!last.isFinal){el('hint-me').textContent='💬 '+last[0].transcript.trim();}
+      else if(S.myIdx<S.words.length){el('hint-me').textContent='→ '+S.words[S.myIdx];}
+      el('mdot').classList.add('on');
+    }
+  };
+
+  rec.onspeechend=()=>{ el('mdot').classList.remove('on'); };
+
+  rec.onerror=(e)=>{
+    console.warn('SR error:',e.error,'mode:',S.recMode);
+    if(e.error==='no-speech') return;
+    if(e.error==='not-allowed') toast('❌ Mic blocked. Check browser permissions.',8000);
+  };
+
+  rec.onend=()=>{
+    el('mdot').classList.remove('on');
+    if(S.recMode!=='off'){
+      S.recCursor=0;
+      setTimeout(()=>{ if(S.recMode!=='off') try{rec.start();}catch(e){console.warn('rec restart:',e);} },250);
+    }
+  };
+
+  S.recMode='test';
+  try{rec.start();}catch(e){console.warn('masterRec start:',e);}
+}
+
+function switchToRace(){ S.recMode='race'; S.recCursor=0; }
+
+// ─────────────────────────────────────────
+// WEBRTC — Peer Video
+// ─────────────────────────────────────────
+async function initWebRTC(isOfferer) {
+  if(peerConn) { try{peerConn.close();}catch(e){} peerConn=null; }
+
+  peerConn = new RTCPeerConnection(RTC_CONFIG);
+
+  // Add our local stream tracks
+  if(S.stream){
+    S.stream.getTracks().forEach(track => peerConn.addTrack(track, S.stream));
   }
 
-  // If already running, just switch mode
-  if (S.masterRec) { S.recMode = 'test'; S.recCursor = 0; return; }
+  // When we receive remote stream, show it
+  peerConn.ontrack = (event) => {
+    console.log('Got remote track:', event.track.kind);
+    const remoteStream = event.streams[0];
+    const vid = el('game-vid-opp');
+    vid.srcObject = remoteStream;
+    vid.style.display = 'block';
+    el('cam-opp-placeholder').style.display = 'none';
+  };
 
-  const rec = new SR();
-  S.masterRec = rec;
-  rec.continuous = true;
-  rec.interimResults = true;
-  rec.lang = 'en-US';
-  rec.maxAlternatives = 1;
-
-  rec.onresult = (event) => {
-    if (S.recMode === 'test') {
-      let txt = '';
-      for (let i = 0; i < event.results.length; i++) txt += event.results[i][0].transcript;
-      el('sr-out').textContent = '✅ Heard: "' + txt.trim() + '"';
-      el('sr-out').style.color = 'var(--acid)';
-    } else if (S.recMode === 'race') {
-      if (!S.raceActive || S.myDone) return;
-      if (!S.myStart) S.myStart = Date.now();
-      let full = '';
-      for (let i = 0; i < event.results.length; i++) full += ' ' + event.results[i][0].transcript;
-      const allWords = full.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      if (allWords.length > S.recCursor) {
-        const newWords = allWords.slice(S.recCursor);
-        S.recCursor += matchWords(newWords);
-      }
-      const last = event.results[event.results.length - 1];
-      if (!last.isFinal) { el('hint-me').textContent = '💬 ' + last[0].transcript.trim(); }
-      else if (S.myIdx < S.words.length) { el('hint-me').textContent = '→ ' + S.words[S.myIdx]; }
-      el('mdot').classList.add('on');
-      el('rcard-me').classList.add('live');
+  peerConn.onicecandidate = (event) => {
+    if(event.candidate){
+      socket.emit('webrtc_ice', { candidate: event.candidate });
     }
   };
 
-  rec.onspeechend = () => {
-    el('mdot').classList.remove('on');
-    el('rcard-me').classList.remove('live');
+  peerConn.onconnectionstatechange = () => {
+    console.log('WebRTC state:', peerConn.connectionState);
   };
 
-  rec.onerror = (e) => {
-    console.warn('SR error:', e.error, 'mode:', S.recMode);
-    if (e.error === 'no-speech') return;
-    if (e.error === 'not-allowed') {
-      toast('❌ Mic blocked. Click the lock icon in your address bar → Allow Microphone → refresh.', 8000);
-    }
-  };
-
-  rec.onend = () => {
-    el('mdot').classList.remove('on');
-    // Auto-restart unless we deliberately stopped
-    if (S.recMode !== 'off') {
-      S.recCursor = 0; // transcript resets on new session
-      setTimeout(() => {
-        if (S.recMode !== 'off') {
-          try { rec.start(); } catch(e) { console.warn('rec restart fail:', e); }
-        }
-      }, 250);
-    }
-  };
-
-  S.recMode = 'test';
-  try { rec.start(); } catch(e) { console.warn('masterRec start error:', e); }
+  if(isOfferer){
+    const offer = await peerConn.createOffer();
+    await peerConn.setLocalDescription(offer);
+    socket.emit('webrtc_offer', { offer });
+  }
 }
 
-function switchRecToRace() {
-  S.recMode = 'race';
-  S.recCursor = 0;
-  console.log('Switched recognizer to race mode');
-}
+socket.on('webrtc_offer', async ({ offer, fromId }) => {
+  console.log('Received WebRTC offer');
+  await initWebRTC(false);
+  await peerConn.setRemoteDescription(new RTCSessionDescription(offer));
+  const answer = await peerConn.createAnswer();
+  await peerConn.setLocalDescription(answer);
+  socket.emit('webrtc_answer', { answer });
+});
 
-function stopSRTest() {
-  // Don't stop — just switch to off so onend doesn't restart
-  // Will be switched to 'race' mode by switchRecToRace()
-  // Only truly stop if no race is happening
-  if (!S.raceActive) S.recMode = 'off';
-}
+socket.on('webrtc_answer', async ({ answer }) => {
+  console.log('Received WebRTC answer');
+  if(peerConn) await peerConn.setRemoteDescription(new RTCSessionDescription(answer));
+});
+
+socket.on('webrtc_ice', async ({ candidate }) => {
+  if(peerConn && candidate){
+    try{ await peerConn.addIceCandidate(new RTCIceCandidate(candidate)); }
+    catch(e){ console.warn('ICE candidate error:', e); }
+  }
+});
 
 // ─────────────────────────────────────────
 // ROOM
 // ─────────────────────────────────────────
-function createRoom() {
-  if (!S.stream) { toast('Enable your mic first!', 4000); return; }
-  socket.emit('create_room', { name: el('pname').value || 'Player 1' });
+function createRoom(){
+  if(!S.stream){toast('Enable your mic first!',4000);return;}
+  socket.emit('create_room',{name:el('pname').value||'Player 1'});
 }
-
-function openJoinModal() { el('jmod').style.display = 'flex'; setTimeout(() => el('jcode').focus(), 100); }
-function closeJoinModal() { el('jmod').style.display = 'none'; }
-
-function doJoin() {
-  const code = el('jcode').value.trim().toUpperCase();
-  if (!code || code.length !== 6) { toast('Enter a 6-character room code.', 3000); return; }
-  if (!S.stream) { closeJoinModal(); toast('Enable your mic first, then join.', 4000); return; }
-  socket.emit('join_room', { roomId: code, name: el('pname').value || 'Player 1' });
+function openJoinModal(){el('jmod').style.display='flex';setTimeout(()=>el('jcode').focus(),100);}
+function closeJoinModal(){el('jmod').style.display='none';}
+function doJoin(){
+  const code=el('jcode').value.trim().toUpperCase();
+  if(!code||code.length!==6){toast('Enter a 6-character room code.',3000);return;}
+  if(!S.stream){closeJoinModal();toast('Enable your mic first, then join.',4000);return;}
+  socket.emit('join_room',{roomId:code,name:el('pname').value||'Player 1'});
   closeJoinModal();
 }
-
-function autoJoin(code) {
-  setTimeout(() => {
-    if (!S.stream) { toast('Enable your mic first to join room ' + code, 5000); return; }
-    socket.emit('join_room', { roomId: code.toUpperCase(), name: el('pname').value || 'Player 1' });
-  }, 600);
+function autoJoin(code){
+  if(!S.stream){toast('Enable your mic first to join room '+code.toUpperCase(),5000);return;}
+  socket.emit('join_room',{roomId:code.toUpperCase(),name:el('pname').value||'Player 1'});
 }
-
-function copyInviteLink() {
-  const url = window.location.origin + '?room=' + S.roomId;
-  navigator.clipboard.writeText(url)
-    .then(() => toast('✅ Link copied! Send it to your friend.'))
-    .catch(() => prompt('Copy this link:', url));
+function copyInviteLink(){
+  const url=window.location.origin+'?room='+S.roomId;
+  navigator.clipboard.writeText(url).then(()=>toast('✅ Link copied!')).catch(()=>prompt('Copy this link:',url));
 }
 
 // ─────────────────────────────────────────
 // SOCKET EVENTS
 // ─────────────────────────────────────────
-socket.on('connect', () => { S.myId = socket.id; });
+socket.on('connect',()=>{ S.myId=socket.id; });
 
-socket.on('room_joined', ({ roomId, passage, isHost, players }) => {
-  S.roomId = roomId; S.isHost = isHost; S.passage = passage;
-  el('rc-display').textContent = roomId;
-  el('passage-txt').textContent = passage;
-  el('room-code-section').style.display = isHost ? 'block' : 'none';
-  el('players-panel').style.display = 'block';
-  el('passage-panel').style.display = 'block';
-  el('room-actions').style.display = 'none';
-  el('lobby-me-name').textContent = el('pname').value || 'Player 1';
-  if (isHost) {
-    el('btn-shuffle').style.display = 'inline-flex';
-    el('btn-start').disabled = true;
-    el('host-hint').textContent = 'You are the host. Start when your friend joins.';
+socket.on('room_joined',({roomId,passage,isHost,players})=>{
+  S.roomId=roomId; S.isHost=isHost; S.passage=passage;
+  el('rc-display').textContent=roomId;
+  el('passage-txt').textContent=passage;
+  el('room-code-section').style.display=isHost?'block':'none';
+  el('players-panel').style.display='block';
+  el('passage-panel').style.display='block';
+  el('room-actions').style.display='none';
+  el('lobby-me-name').textContent=el('pname').value||'Player 1';
+  if(isHost){
+    el('btn-shuffle').style.display='inline-flex';
+    el('btn-start').disabled=true;
+    el('host-hint').textContent='You are the host. Hit Start when your friend joins.';
   } else {
-    el('btn-shuffle').style.display = 'none';
-    el('btn-start').style.display = 'none';
-    el('host-hint').textContent = 'Waiting for the host to start the race…';
+    el('btn-shuffle').style.display='none';
+    el('btn-start').style.display='none';
+    el('host-hint').textContent='Waiting for the host to start the race…';
+    // Non-host: wait for offer from host
   }
   updateLobbyPlayers(players);
-  history.replaceState({}, '', '?room=' + roomId);
+  history.replaceState({},'','?room='+roomId);
 });
 
-socket.on('room_update', ({ players }) => updateLobbyPlayers(players));
-
-socket.on('passage_changed', ({ passage }) => {
-  S.passage = passage;
-  el('passage-txt').textContent = passage;
-  toast('📖 New passage!');
-});
-
-socket.on('opponent_left', ({ players }) => {
-  toast('⚠️ Opponent left the room.', 5000);
+socket.on('room_update',({players})=>{
   updateLobbyPlayers(players);
-  el('btn-start').disabled = true;
-  if (S.raceActive) { S.raceActive = false; clearInterval(S.clockTimer); }
+  // When 2nd player joins, host initiates WebRTC
+  const opp=players.find(p=>p.id!==S.myId);
+  if(opp && S.isHost && S.stream){
+    setTimeout(()=>initWebRTC(true),500);
+  }
 });
 
-socket.on('race_countdown', ({ passage }) => {
-  S.passage = passage;
+socket.on('passage_changed',({passage})=>{ S.passage=passage; el('passage-txt').textContent=passage; toast('📖 New passage!'); });
+
+socket.on('opponent_left',({players})=>{
+  toast('⚠️ Opponent left.',5000);
+  updateLobbyPlayers(players);
+  el('btn-start').disabled=true;
+  if(S.raceActive){ S.raceActive=false; clearInterval(S.clockTimer); }
+  if(peerConn){ try{peerConn.close();}catch(e){} peerConn=null; }
+  el('game-vid-opp').style.display='none';
+  el('cam-opp-placeholder').style.display='flex';
+});
+
+socket.on('race_countdown',({passage})=>{
+  S.passage=passage;
   stopMicMeter();
   goScreen('game');
-  initRaceUI();
-  startCountdown(() => {});
+  setupGameUI();
+  startCountdown();
 });
 
-socket.on('race_start', ({ passage, startTime }) => {
-  S.passage = passage;
-  S.raceStart = startTime;
-  S.raceActive = true;
-  el('hint-me').textContent = '🎤 Speak now — go fast!';
-  // Switch the already-running recognizer into race mode — no stop/start needed
-  switchRecToRace();
+socket.on('race_start',({passage,startTime})=>{
+  S.passage=passage; S.raceStart=startTime;
+  S.raceActive=true;
+  el('hint-me').textContent='🎤 Speak now — go fast!';
+  switchToRace();
 });
 
-socket.on('opponent_update', ({ progress, wpm }) => {
-  S.oppIdx = progress; S.oppWpm = wpm;
-  const tot = S.words.length || 1;
-  el('bar-opp').style.width = Math.min(100, Math.round(progress / tot * 100)) + '%';
-  el('opp-ct').textContent = progress;
-  el('opp-wpm').textContent = wpm + ' WPM';
-  el('hint-opp').textContent = wpm + ' WPM · ' + progress + ' words';
+socket.on('opponent_update',({progress,wpm})=>{
+  S.oppIdx=progress; S.oppWpm=wpm;
+  const tot=S.words.length||1;
+  el('bar-opp').style.width=Math.min(100,Math.round(progress/tot*100))+'%';
+  el('opp-words').textContent=progress+' words';
+  el('cam-opp-wpm').textContent=wpm+' WPM';
+  el('hint-opp').textContent=wpm+' WPM · '+progress+' words';
 });
 
-socket.on('player_finished', ({ id, name, wpm, accuracy, elapsed }) => {
-  if (id === S.myId) return;
-  S.oppIdx = S.words.length; S.oppWpm = wpm;
-  el('bar-opp').style.width = '100%';
-  if (!S.myDone) showResults('opp', null, null, null, wpm);
+socket.on('player_finished',({id,name,wpm,accuracy,elapsed})=>{
+  if(id===S.myId) return;
+  S.oppIdx=S.words.length; S.oppWpm=wpm;
+  el('bar-opp').style.width='100%';
+  if(!S.myDone) showResults('opp',null,null,null,wpm);
 });
 
-socket.on('rematch_ready', ({ passage, players }) => {
-  S.passage = passage;
-  el('passage-txt').textContent = passage;
+socket.on('rematch_ready',({passage,players})=>{
+  S.passage=passage;
+  el('passage-txt').textContent=passage;
   updateLobbyPlayers(players);
-  el('room-actions').style.display = 'none';
-  el('players-panel').style.display = 'block';
-  el('passage-panel').style.display = 'block';
-  el('room-code-section').style.display = S.isHost ? 'block' : 'none';
-  if (S.isHost) { el('btn-start').disabled = false; el('host-hint').textContent = 'Ready for rematch!'; }
+  el('room-actions').style.display='none';
+  el('players-panel').style.display='block';
+  el('passage-panel').style.display='block';
+  el('room-code-section').style.display=S.isHost?'block':'none';
+  if(S.isHost){el('btn-start').disabled=false;el('host-hint').textContent='Ready for rematch!';}
   goScreen('lobby');
   toast('🔁 Rematch ready!');
+  // Re-initiate WebRTC for rematch
+  if(S.isHost && S.stream) setTimeout(()=>initWebRTC(true),800);
 });
 
-socket.on('error_msg', msg => toast('❌ ' + msg, 5000));
+socket.on('error_msg',msg=>toast('❌ '+msg,5000));
 
-function updateLobbyPlayers(players) {
-  const opp = players.find(p => p.id !== S.myId);
-  const slot = el('slot-opp');
-  if (opp) {
-    S.oppName = opp.name;
-    el('opp-name-game').textContent = opp.name;
-    slot.className = 'slot ready';
-    slot.innerHTML = `<div class="slot-cam">👤</div><div class="slot-nm">${opp.name}</div><div class="slot-st ok">✅ Ready</div>`;
-    if (S.isHost) el('btn-start').disabled = false;
+function updateLobbyPlayers(players){
+  const opp=players.find(p=>p.id!==S.myId);
+  const slot=el('slot-opp');
+  if(opp){
+    S.oppName=opp.name;
+    el('cam-opp-name').textContent=opp.name;
+    slot.className='slot ready';
+    slot.innerHTML=`<div class="slot-cam">👤</div><div class="slot-nm">${opp.name}</div><div class="slot-st ok">✅ Ready</div>`;
+    if(S.isHost) el('btn-start').disabled=false;
   } else {
-    slot.className = 'slot waiting';
-    slot.innerHTML = `<div class="slot-cam"><span class="pulse">⏳</span></div><div class="slot-nm">Waiting…</div><div class="slot-st">Share your code</div>`;
-    if (S.isHost) el('btn-start').disabled = true;
+    slot.className='slot waiting';
+    slot.innerHTML=`<div class="slot-cam"><span class="pulse">⏳</span></div><div class="slot-nm">Waiting…</div><div class="slot-st">Share your code</div>`;
+    if(S.isHost) el('btn-start').disabled=true;
   }
 }
 
 // ─────────────────────────────────────────
-// RACE LOCAL SETUP
+// GAME UI SETUP
 // ─────────────────────────────────────────
-function initRaceUI() {
-  S.words = S.passage.split(/\s+/).filter(Boolean);
-  S.myIdx = 0; S.oppIdx = 0; S.myDone = false;
-  S.myStart = null; S.myCorrect = 0; S.myTotal = 0;
+function setupGameUI(){
+  S.words=S.passage.split(/\s+/).filter(Boolean);
+  S.myIdx=0; S.oppIdx=0; S.myDone=false;
+  S.myStart=null; S.myCorrect=0; S.myTotal=0;
 
-  el('game-me-name').textContent = el('pname').value || 'Player 1';
-  el('opp-name-game').textContent = S.oppName;
+  const name=el('pname').value||'Player 1';
+  el('cam-me-name').textContent=name;
+  el('cam-opp-name').textContent=S.oppName;
 
-  if (S.stream && !S.micOnly) {
-    const v = el('game-vid'); v.srcObject = S.stream; v.style.display = 'block';
-    el('game-nocam').style.display = 'none';
+  // Show my camera
+  if(S.stream&&!S.micOnly){
+    const v=el('game-vid-me'); v.srcObject=S.stream; v.style.display='block';
+    el('cam-me-placeholder').style.display='none';
   }
 
-  el('race-text').innerHTML = S.words.map((w, i) => `<span class="w pend" id="w${i}">${w}</span>`).join(' ');
-  setWord(0, 'curr');
+  el('race-text').innerHTML=S.words.map((w,i)=>`<span class="w pend" id="w${i}">${w}</span>`).join(' ');
+  setWord(0,'curr');
 
-  el('bar-me').style.width = '0%'; el('bar-opp').style.width = '0%';
-  el('me-ct').textContent = '0'; el('opp-ct').textContent = '0';
-  el('me-wpm').textContent = '0 WPM'; el('opp-wpm').textContent = '0 WPM';
-  el('gtimer').textContent = '0:00';
-  el('hint-me').textContent = 'Get ready…';
-  el('hint-opp').textContent = 'Get ready…';
-  el('mdot').classList.remove('on');
+  el('bar-me').style.width='0%'; el('bar-opp').style.width='0%';
+  el('me-words').innerHTML='<span class="mdot" id="mdot">0 words</span>';
+  el('opp-words').textContent='0 words';
+  el('cam-me-wpm').textContent='0 WPM'; el('cam-opp-wpm').textContent='0 WPM';
+  el('gtimer').textContent='0:00';
+  el('hint-me').textContent='Get ready…'; el('hint-opp').textContent='Get ready…';
 
   startClock();
 }
 
-function initRaceLocal() {
-  initRaceUI();
-  startRaceRec();
-}
+function setWord(i,cls){ const e=el('w'+i); if(e) e.className='w '+cls; }
 
-function setWord(i, cls) { const e = el('w' + i); if (e) e.className = 'w ' + cls; }
-
-function updateMyBars() {
-  const tot = S.words.length || 1;
-  el('bar-me').style.width = Math.min(100, Math.round(S.myIdx / tot * 100)) + '%';
-  el('me-ct').textContent = S.myIdx;
-  if (S.myStart) {
-    const wpm = Math.round(S.myIdx / Math.max((Date.now() - S.myStart) / 60000, 0.0001));
-    el('me-wpm').textContent = wpm + ' WPM';
-    if (wpm > S.bestWpm) S.bestWpm = wpm;
-    socket.emit('progress_update', { wordIndex: S.myIdx, wpm });
+function updateMyBars(){
+  const tot=S.words.length||1;
+  el('bar-me').style.width=Math.min(100,Math.round(S.myIdx/tot*100))+'%';
+  el('me-words').innerHTML='<span class="mdot on" id="mdot"></span>'+S.myIdx+' words';
+  if(S.myStart){
+    const wpm=Math.round(S.myIdx/Math.max((Date.now()-S.myStart)/60000,0.0001));
+    el('cam-me-wpm').textContent=wpm+' WPM';
+    socket.emit('progress_update',{wordIndex:S.myIdx,wpm});
   }
 }
 
 // ─────────────────────────────────────────
 // CLOCK
 // ─────────────────────────────────────────
-function startClock() {
+function startClock(){
   clearInterval(S.clockTimer);
-  S.clockTimer = setInterval(() => {
-    if (!S.raceActive) return;
-    const s = Math.floor((Date.now() - S.raceStart) / 1000);
-    el('gtimer').textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-  }, 200);
+  S.clockTimer=setInterval(()=>{
+    if(!S.raceActive) return;
+    const s=Math.floor((Date.now()-S.raceStart)/1000);
+    el('gtimer').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  },200);
 }
 
 // ─────────────────────────────────────────
 // COUNTDOWN
 // ─────────────────────────────────────────
-function startCountdown(onDone) {
-  let count = 3;
-  const ov = el('cdov'), cn = el('cdn');
-  ov.style.display = 'flex'; cn.textContent = count; cn.style.color = '';
-  cn.style.animation = 'none'; void cn.offsetWidth; cn.style.animation = 'cdp .55s cubic-bezier(.34,1.56,.64,1)';
-  const t = setInterval(() => {
+function startCountdown(){
+  let count=3;
+  const ov=el('cdov'),cn=el('cdn');
+  ov.style.display='flex'; cn.textContent=count; cn.style.color='';
+  cn.style.animation='none'; void cn.offsetWidth; cn.style.animation='cdp .55s cubic-bezier(.34,1.56,.64,1)';
+  const t=setInterval(()=>{
     count--;
-    if (count > 0) {
-      cn.textContent = count;
-      cn.style.animation = 'none'; void cn.offsetWidth; cn.style.animation = 'cdp .55s cubic-bezier(.34,1.56,.64,1)';
+    if(count>0){
+      cn.textContent=count;
+      cn.style.animation='none'; void cn.offsetWidth; cn.style.animation='cdp .55s cubic-bezier(.34,1.56,.64,1)';
     } else {
-      cn.textContent = 'GO!'; cn.style.color = '#fff';
-      setTimeout(() => { ov.style.display = 'none'; cn.style.color = ''; if (onDone) onDone(); }, 700);
+      cn.textContent='GO!'; cn.style.color='#fff';
+      setTimeout(()=>{ ov.style.display='none'; cn.style.color=''; },700);
       clearInterval(t);
     }
-  }, 1000);
+  },1000);
 }
-
-// startRaceRec is now handled by switchRecToRace() — the unified
-// masterRec is already running from lobby, we just switch its mode.
-function startRaceRec() { switchRecToRace(); }
 
 // ─────────────────────────────────────────
 // WORD MATCHING
 // ─────────────────────────────────────────
-function matchWords(spoken) {
-  let si = 0;
-  while (si < spoken.length && S.myIdx < S.words.length) {
-    const said = norm(spoken[si]);
-    if (!said) { si++; continue; }
-    const target = norm(S.words[S.myIdx]);
-
-    if (isMatch(said, target)) {
-      setWord(S.myIdx, 'done');
-      S.myIdx++; S.myCorrect++; S.myTotal++;
-      if (S.myIdx < S.words.length) setWord(S.myIdx, 'curr');
+function matchWords(spoken){
+  let si=0;
+  while(si<spoken.length&&S.myIdx<S.words.length){
+    const said=norm(spoken[si]);
+    if(!said){si++;continue;}
+    const target=norm(S.words[S.myIdx]);
+    if(isMatch(said,target)){
+      setWord(S.myIdx,'done'); S.myIdx++; S.myCorrect++; S.myTotal++;
+      if(S.myIdx<S.words.length) setWord(S.myIdx,'curr');
       updateMyBars(); si++;
-      if (S.myIdx >= S.words.length) { finishRace(); return si; }
+      if(S.myIdx>=S.words.length){finishRace();return si;}
     } else {
-      // Filler skip: does next spoken word match current target?
-      if (si + 1 < spoken.length && isMatch(norm(spoken[si + 1]), target)) {
-        si++; continue;
-      }
-      // Passage skip: does current spoken word match NEXT passage word?
-      if (S.myIdx + 1 < S.words.length && isMatch(said, norm(S.words[S.myIdx + 1]))) {
-        setWord(S.myIdx, 'done'); S.myIdx++;
-        setWord(S.myIdx, 'done'); S.myIdx++;
-        S.myCorrect += 2; S.myTotal++;
-        if (S.myIdx < S.words.length) setWord(S.myIdx, 'curr');
+      if(si+1<spoken.length&&isMatch(norm(spoken[si+1]),target)){si++;continue;}
+      if(S.myIdx+1<S.words.length&&isMatch(said,norm(S.words[S.myIdx+1]))){
+        setWord(S.myIdx,'done'); S.myIdx++;
+        setWord(S.myIdx,'done'); S.myIdx++;
+        S.myCorrect+=2; S.myTotal++;
+        if(S.myIdx<S.words.length) setWord(S.myIdx,'curr');
         updateMyBars(); si++;
-        if (S.myIdx >= S.words.length) { finishRace(); return si; }
+        if(S.myIdx>=S.words.length){finishRace();return si;}
         continue;
       }
-      // Wrong word
-      const wi = S.myIdx; S.myTotal++;
-      setWord(wi, 'bad');
-      setTimeout(() => { if (!S.myDone && S.myIdx === wi) setWord(wi, 'curr'); }, 400);
+      const wi=S.myIdx; S.myTotal++;
+      setWord(wi,'bad');
+      setTimeout(()=>{if(!S.myDone&&S.myIdx===wi)setWord(wi,'curr');},400);
       updateMyBars(); si++;
     }
   }
@@ -963,75 +935,69 @@ function matchWords(spoken) {
 // ─────────────────────────────────────────
 // FINISH
 // ─────────────────────────────────────────
-function finishRace() {
-  if (S.myDone) return;
-  S.myDone = true; S.raceActive = false;
+function finishRace(){
+  if(S.myDone) return;
+  S.myDone=true; S.raceActive=false; S.recMode='off';
   clearInterval(S.clockTimer);
-  if (S.rec) { try { S.rec.stop(); } catch(e){} }
-
-  const elapsed = ((Date.now() - S.raceStart) / 1000).toFixed(1);
-  const mins = (Date.now() - (S.myStart || S.raceStart)) / 60000;
-  const wpm = Math.round(S.myIdx / Math.max(mins, 0.001));
-  const acc = S.myTotal > 0 ? Math.round(S.myCorrect / S.myTotal * 100) : 100;
-
-  socket.emit('race_finished', { wordIndex: S.myIdx, wpm, accuracy: acc });
-  showResults('me', wpm, elapsed, acc, S.oppWpm);
+  const elapsed=((Date.now()-S.raceStart)/1000).toFixed(1);
+  const mins=(Date.now()-(S.myStart||S.raceStart))/60000;
+  const wpm=Math.round(S.myIdx/Math.max(mins,0.001));
+  const acc=S.myTotal>0?Math.round(S.myCorrect/S.myTotal*100):100;
+  socket.emit('race_finished',{wordIndex:S.myIdx,wpm,accuracy:acc});
+  showResults('me',wpm,elapsed,acc,S.oppWpm);
 }
 
-function showResults(winner, myWpm, myTime, myAcc, oppWpm) {
-  const elapsed = myTime || ((Date.now() - S.raceStart) / 1000).toFixed(1);
-  const wpm = myWpm || Math.round(S.myIdx / Math.max((Date.now() - (S.myStart || S.raceStart)) / 60000, 0.001));
-  const acc = myAcc !== undefined ? myAcc : (S.myTotal > 0 ? Math.round(S.myCorrect / S.myTotal * 100) : 0);
-  const name = (el('pname').value || 'Player 1').toUpperCase();
-
+function showResults(winner,myWpm,myTime,myAcc,oppWpm){
+  const elapsed=myTime||((Date.now()-S.raceStart)/1000).toFixed(1);
+  const wpm=myWpm||Math.round(S.myIdx/Math.max((Date.now()-(S.myStart||S.raceStart))/60000,0.001));
+  const acc=myAcc!==undefined?myAcc:(S.myTotal>0?Math.round(S.myCorrect/S.myTotal*100):0);
+  const name=(el('pname').value||'Player 1').toUpperCase();
   goScreen('results');
-  if (winner === 'me') {
-    el('res-ico').textContent = '🏆';
-    el('res-title').textContent = name + ' WINS';
-    el('res-title').style.color = 'var(--acid)';
-    el('res-note').textContent = 'You outran ' + S.oppName + ' at ' + wpm + ' WPM!';
+  if(winner==='me'){
+    el('res-ico').textContent='🏆';
+    el('res-title').textContent=name+' WINS';
+    el('res-title').style.color='var(--acid)';
+    el('res-note').textContent='You outran '+S.oppName+' at '+wpm+' WPM!';
   } else {
-    el('res-ico').textContent = '💨';
-    el('res-title').textContent = S.oppName.toUpperCase() + ' WINS';
-    el('res-title').style.color = 'var(--blue)';
-    el('res-note').textContent = S.oppName + ' finished first. Race again!';
+    el('res-ico').textContent='💨';
+    el('res-title').textContent=S.oppName.toUpperCase()+' WINS';
+    el('res-title').style.color='var(--blue)';
+    el('res-note').textContent=S.oppName+' finished first. Race again!';
   }
-  el('res-wpm').textContent = wpm;
-  el('res-time').textContent = elapsed + 's';
-  el('res-oppwpm').textContent = oppWpm || S.oppWpm || '—';
-  el('res-acc').textContent = acc + '%';
+  el('res-wpm').textContent=wpm;
+  el('res-time').textContent=elapsed+'s';
+  el('res-oppwpm').textContent=oppWpm||S.oppWpm||'—';
+  el('res-acc').textContent=acc+'%';
 }
 
 // ─────────────────────────────────────────
 // EVENTS
 // ─────────────────────────────────────────
-el('btn-cam-mic').addEventListener('click', () => enableMedia(true));
-el('btn-mic-only').addEventListener('click', () => enableMedia(false));
-el('btn-create').addEventListener('click', createRoom);
-el('btn-join').addEventListener('click', openJoinModal);
-el('btn-do-join').addEventListener('click', doJoin);
-el('jcode').addEventListener('keydown', e => { if (e.key === 'Enter') doJoin(); });
-el('btn-copy').addEventListener('click', copyInviteLink);
-el('btn-shuffle').addEventListener('click', () => { if (S.isHost) socket.emit('change_passage'); });
-el('btn-start').addEventListener('click', () => { if (S.isHost) socket.emit('start_race'); });
-el('btn-giveup').addEventListener('click', () => {
-  S.raceActive = false; clearInterval(S.clockTimer);
-  if (S.rec) { try { S.rec.stop(); } catch(e){} }
-  showResults('opp', null, null, null, S.oppWpm);
+el('btn-cam-mic').addEventListener('click',()=>enableMedia(true));
+el('btn-mic-only').addEventListener('click',()=>enableMedia(false));
+el('btn-create').addEventListener('click',createRoom);
+el('btn-join').addEventListener('click',openJoinModal);
+el('btn-do-join').addEventListener('click',doJoin);
+el('jcode').addEventListener('keydown',e=>{if(e.key==='Enter')doJoin();});
+el('btn-copy').addEventListener('click',copyInviteLink);
+el('btn-shuffle').addEventListener('click',()=>{if(S.isHost)socket.emit('change_passage');});
+el('btn-start').addEventListener('click',()=>{if(S.isHost)socket.emit('start_race');});
+el('btn-giveup').addEventListener('click',()=>{
+  S.raceActive=false; S.recMode='off'; clearInterval(S.clockTimer);
+  showResults('opp',null,null,null,S.oppWpm);
 });
-el('btn-rematch').addEventListener('click', () => socket.emit('request_rematch'));
-el('btn-back').addEventListener('click', () => goScreen('lobby'));
-el('pname').addEventListener('input', e => {
-  el('lobby-me-name').textContent = e.target.value || 'Player 1';
-  el('game-me-name').textContent = e.target.value || 'Player 1';
+el('btn-rematch').addEventListener('click',()=>socket.emit('request_rematch'));
+el('btn-back').addEventListener('click',()=>goScreen('lobby'));
+el('pname').addEventListener('input',e=>{
+  el('lobby-me-name').textContent=e.target.value||'Player 1';
+  el('cam-me-name').textContent=e.target.value||'Player 1';
 });
 
 // ─────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────
 checkSR();
-const _urlRoom = new URLSearchParams(window.location.search).get('room');
-if (_urlRoom) goLobby();
+if(new URLSearchParams(window.location.search).get('room')) goLobby();
 </script>
 </body>
 </html>
