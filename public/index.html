@@ -395,7 +395,7 @@ const S = {
   clockTimer:null,
   raceStart:null, myStart:null,
   myCorrect:0, myTotal:0,
-  oppName:'Opponent', oppWpm:0,
+  oppName:'Opponent', oppWpm:0, _lastInterim:'',
 };
 
 // ── UTILS ──
@@ -404,7 +404,18 @@ function toast(msg,dur=4500){const t=el('toast');t.textContent=msg;t.classList.a
 function goScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));el(id).classList.add('active');}
 function norm(w){return w.toLowerCase().replace(/[^a-z0-9']/g,'');}
 function lev(a,b){if(a===b)return 0;if(Math.abs(a.length-b.length)>3)return 99;const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>j===0?i:0));for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);return dp[m][n];}
-function isMatch(s,t){if(!s||!t)return false;if(s===t)return true;if(t.length>3&&s.length>=3&&t.startsWith(s))return true;if(s.length>=3&&t.length>=5&&lev(s,t)<=1)return true;if(s.length>=4&&t.length>=8&&lev(s,t)<=2)return true;return false;}
+function isMatch(s,t){
+  if(!s||!t) return false;
+  if(s===t) return true;
+  // prefix match (partially spoken word)
+  if(t.length>3&&s.length>=3&&t.startsWith(s)) return true;
+  if(s.length>3&&t.length>=3&&s.startsWith(t)) return true;
+  // fuzzy edit distance — apply to all words 3+ chars
+  const d=lev(s,t);
+  if(t.length>=3&&s.length>=3&&d<=1) return true;
+  if(t.length>=8&&s.length>=4&&d<=2) return true;
+  return false;
+}
 
 function goSetup(){goScreen('lobby');checkSR();}
 function checkSR(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;const b=el('sr-badge');if(SR){b.textContent='🗣 Speech: OK';b.className='bdg ok';}else{b.textContent='🗣 Not supported';b.className='bdg err';}}
@@ -472,12 +483,26 @@ function startSRTest(){
       const all=full.trim().toLowerCase().split(/\s+/).filter(Boolean);
       if(all.length>S.recCursor)S.recCursor+=matchWords(all.slice(S.recCursor));
       const last=event.results[event.results.length-1];
+      // Store latest interim so speechend can flush it if needed
+      S._lastInterim=full.trim();
       if(!last.isFinal){el('hint-me').textContent='💬 '+last[0].transcript.trim();}
       else if(S.myIdx<S.words.length){el('hint-me').textContent='→ '+S.words[S.myIdx];}
       el('mdot').classList.add('on');
     }
   };
-  rec.onspeechend=()=>{el('mdot').classList.remove('on');};
+  rec.onspeechend=()=>{
+    el('mdot').classList.remove('on');
+    // Force-flush: process whatever is in the current interim when speech stops.
+    // This catches the last word of a sentence where there's no following word
+    // to trigger a final result from the recognizer.
+    if(S.recMode==='race'&&S.raceActive&&!S.myDone&&S._lastInterim){
+      const words=S._lastInterim.toLowerCase().split(/\s+/).filter(Boolean);
+      if(words.length>S.recCursor){
+        S.recCursor+=matchWords(words.slice(S.recCursor));
+      }
+      S._lastInterim='';
+    }
+  };
   rec.onerror=(e)=>{if(e.error==='no-speech')return;if(e.error==='not-allowed')toast('❌ Mic blocked.',8000);};
   rec.onend=()=>{el('mdot').classList.remove('on');if(S.recMode!=='off'){S.recCursor=0;setTimeout(()=>{if(S.recMode!=='off')try{rec.start();}catch(e){}},250);}};
   S.recMode='test';
